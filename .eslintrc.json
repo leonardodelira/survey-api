@@ -1,10 +1,12 @@
 {
-    "extends": "",
+    "extends": ["standard-with-typescript", "prettier"],
     "parserOptions": {
         "project": "./tsconfig.json"
     },
+    "plugins": ["prettier"],
     "rules": {
         "space-before-function-paren": ["error", "never"],
-        "@typescript-eslint/space-before-function-paren": ["error", "never"]
+        "@typescript-eslint/space-before-function-paren": ["error", "never"],
+        "prettier/prettier": "error"
     }
 }
