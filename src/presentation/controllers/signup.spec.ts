@@ -24,8 +24,8 @@ const makeAddAccount = (): IAddAccount => {
     add(account: IAddAccountModel): IAccountModel {
       return {
         id: 1,
-        name: 'name',
-        email: 'name@email.com',
+        name: 'valid_name',
+        email: 'valid_email@email.com',
       };
     }
   }
@@ -223,5 +223,26 @@ describe('SignUp Controller', () => {
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  test('Should return 200 when addAccount work', () => {
+    const { sut } = makeSut();
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        email: 'valid_email@email.com',
+        password: '123',
+        passwordConfirm: '123',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(200);
+    expect(httpResponse.body).toEqual({
+      id: 1,
+      name: 'valid_name',
+      email: 'valid_email@email.com',
+    });
   });
 });
