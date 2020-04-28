@@ -1,5 +1,5 @@
 import { DbAddAccount } from './db-add-account';
-import { IEncrypter, IAddAccountModel, IAddAccountRepository } from './db-add-account-protocols';
+import { IEncrypter, IAddAccountModel, IAddAccountRepository, IAccountModel } from './db-add-account-protocols';
 
 interface SutTypes {
   sut: DbAddAccount;
@@ -19,11 +19,11 @@ const makeEncrypter = (): IEncrypter => {
 
 const makeAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
-    async add(account: IAddAccountModel): Promise<IAddAccountModel> {
+    async add(account: IAddAccountModel): Promise<IAccountModel> {
       const fakeAccount = {
         id: 1,
-        name: 'name',
-        email: 'email',
+        name: 'name_valid',
+        email: 'email_valid',
         password: 'hashed_password',
       };
       return await new Promise((resolve) => resolve(fakeAccount));
@@ -107,5 +107,23 @@ describe('DbAddAccount Usercase', () => {
 
     const promisse = sut.add(accountData);
     await expect(promisse).rejects.toThrow();
+  });
+
+  test('Should return AccountModel', async () => {
+    const { sut } = makeSut();
+
+    const accountData = {
+      name: 'name_valid',
+      email: 'email_valid',
+      password: 'valid_password',
+    };
+
+    const account = await sut.add(accountData);
+    expect(account).toEqual({
+      id: 1,
+      name: 'name_valid',
+      email: 'email_valid',
+      password: 'hashed_password',
+    });
   });
 });
