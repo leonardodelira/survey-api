@@ -9,7 +9,7 @@ export class BcryptAdapter implements IEncrypter {
   }
 
   async encrypt(value: string): Promise<string> {
-    await bcrypt.hash(value, this._salt);
-    return await new Promise((resolve) => resolve(''));
+    const hashedValue = await bcrypt.hash(value, this._salt);
+    return hashedValue;
   }
 }
