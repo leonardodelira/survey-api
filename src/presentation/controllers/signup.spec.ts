@@ -26,6 +26,7 @@ const makeAddAccount = (): IAddAccount => {
         id: 1,
         name: 'valid_name',
         email: 'valid_email@email.com',
+        password: 'hashed',
       };
       return await new Promise((resolve) => resolve(newAccount));
     }
@@ -244,6 +245,7 @@ describe('SignUp Controller', () => {
       id: 1,
       name: 'valid_name',
       email: 'valid_email@email.com',
+      password: 'hashed',
     });
   });
 });
