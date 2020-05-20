@@ -1,9 +1,12 @@
 import { LogControllerDecorator } from './log';
 import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols';
+import { serverError } from '../../presentation/helpers/http-helpers';
+import { ILogErrorRepository } from '../../data/protocols/log-error-repository';
 
 interface SutTypes {
   sut: LogControllerDecorator
-  controllerStub: Controller
+  controllerStub: Controller,
+  logErrorRepositoryStub: ILogErrorRepository
 }
 
 const makeController = (): Controller => {
@@ -20,13 +23,25 @@ const makeController = (): Controller => {
   return new ControllerStub();
 }
 
+const makeLogErrorRepository = (): ILogErrorRepository => {
+  class LogErrorRepositoryStub implements ILogErrorRepository {
+    async log(stack: string): Promise<void> {
+      return await new Promise(resolve => resolve())
+    }
+  }
+
+  return new LogErrorRepositoryStub();
+}
+
 const makeSut = (): SutTypes => {
   const controllerStub = makeController();
-  const sut = new LogControllerDecorator(controllerStub);
+  const logErrorRepositoryStub = makeLogErrorRepository();
+  const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub);
 
   return {
     sut,
-    controllerStub
+    controllerStub,
+    logErrorRepositoryStub
   }
 }
 
@@ -65,5 +80,33 @@ describe('LogController Decorator', () => {
       statusCode: 200,
       body: 'any_body'
     });
+  })
+
+  test('Should call LogErrorRepository if controller return a server error', async () => {
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut();
+
+    const fakeError = new Error();
+    fakeError.stack = 'any_error';
+    
+    const error = serverError(fakeError);
+
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(
+      new Promise(resolve => resolve(error))
+    );
+
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log');
+
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        name: 'any_name',
+        password: '123',
+        passwordConfirmation: '123'
+      }
+    }
+    
+    await sut.handle(httpRequest);
+    
+    expect(logSpy).toHaveBeenCalledWith('any_error');
   })
 })
