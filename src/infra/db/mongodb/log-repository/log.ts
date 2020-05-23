@@ -9,5 +9,4 @@ export class LogMongoRepository implements ILogErrorRepository {
       date: new Date()
     });
   }
-
 }
