@@ -3,6 +3,7 @@ import { MissingParamError, InvalidParamError, ServerError } from '../errors';
 import { IEmailValidator } from '../protocols/email-validator';
 import { IAddAccount, IAddAccountModel } from '../../domain/usecases/add-account';
 import { IAccountModel } from '../../domain/models/account';
+import { ok, serverError, badRequest} from '../helpers/http-helpers';
 
 interface SutTypes {
   sut: SignUpController;
@@ -59,8 +60,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('name'));
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('name')));
   });
 
   test('Should return 400 if no email is provided', async () => {
@@ -74,8 +74,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('email'));
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')));
   });
 
   test('Should return 400 if no password is provided', async () => {
@@ -89,8 +88,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('password'));
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('password')));
   });
 
   test('Should return 400 if no passwordConfirm is provided', async () => {
@@ -104,8 +102,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirm'));
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('passwordConfirm')));
   });
 
   test('Should return 400 if an email invalid is provided', async () => {
@@ -123,8 +120,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new InvalidParamError('email'));
+    expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')));
   });
 
   test('Should return 400 if password confirmation fails', async () => {
@@ -140,8 +136,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirm'));
+    expect(httpResponse).toEqual(badRequest(new InvalidParamError('passwordConfirm')));
   });
 
   test('Should return success when provided correct email', async () => {
@@ -179,8 +174,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
+    expect(httpResponse).toEqual(serverError(new ServerError()));
   });
 
   test('Should call AddAcount with correct params', async () => {
@@ -223,8 +217,7 @@ describe('SignUp Controller', () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse.statusCode).toBe(500);
-    expect(httpResponse.body).toEqual(new ServerError());
+    expect(httpResponse).toEqual(serverError(new ServerError()));
   });
 
   test('Should return 200 when addAccount work', async () => {
@@ -240,12 +233,11 @@ describe('SignUp Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest);
 
-    expect(httpResponse.statusCode).toBe(200);
-    expect(httpResponse.body).toEqual({
+    expect(httpResponse).toEqual(ok({
       id: 1,
       name: 'valid_name',
       email: 'valid_email@email.com',
       password: 'hashed',
-    });
+    }));
   });
 });
