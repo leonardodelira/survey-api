@@ -3,12 +3,14 @@ import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
 import { IEmailValidator } from '../../protocols/email-validator';
 import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/add-account';
 import { IAccountModel } from '../../../domain/models/account';
-import { ok, serverError, badRequest} from '../../helpers/http-helpers';
+import { ok, serverError, badRequest } from '../../helpers/http-helpers';
+import { IValidation } from '../../helpers/validators/validation';
 
 interface SutTypes {
   sut: SignUpController;
   emailValidatorStub: IEmailValidator;
   addAccountStub: IAddAccount;
+  validationStub: IValidation;
 }
 
 const makeEmailValidator = (): IEmailValidator => {
@@ -36,15 +38,27 @@ const makeAddAccount = (): IAddAccount => {
   return new AddAccountStub();
 };
 
+const makeValidation = (): IValidation => {
+  class ValidationStub implements IValidation {
+    validate(input: any): Error {
+      return null;
+    }
+  }
+
+  return new ValidationStub();
+};
+
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator();
   const addAccountStub = makeAddAccount();
-  const sut = new SignUpController(emailValidatorStub, addAccountStub);
+  const validationStub = makeValidation();
+  const sut = new SignUpController(emailValidatorStub, addAccountStub, validationStub);
 
   return {
     sut,
     emailValidatorStub,
     addAccountStub,
+    validationStub,
   };
 };
 
@@ -233,11 +247,30 @@ describe('SignUp Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest);
 
-    expect(httpResponse).toEqual(ok({
-      id: 1,
-      name: 'valid_name',
-      email: 'valid_email@email.com',
-      password: 'hashed',
-    }));
+    expect(httpResponse).toEqual(
+      ok({
+        id: 1,
+        name: 'valid_name',
+        email: 'valid_email@email.com',
+        password: 'hashed',
+      })
+    );
+  });
+
+  test('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut();
+    const validateSpy = jest.spyOn(validationStub, 'validate');
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@test.com',
+        password: '123',
+        passwordConfirm: '123',
+      },
+    };
+
+    await sut.handle(httpRequest);
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 });
