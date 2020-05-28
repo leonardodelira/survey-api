@@ -1,6 +1,6 @@
 import { Controller, HttpRequest, HttpResponse, IEmailValidator } from '../../protocols';
 import { MissingParamError, InvalidParamError } from '../../errors';
-import { badRequest, serverError, unathorized } from '../../helpers/http-helpers';
+import { badRequest, serverError, unathorized, ok } from '../../helpers/http-helpers';
 import { IAuthentication } from '../../../domain/usecases/authentication';
 
 export class LoginController implements Controller {
@@ -34,7 +34,7 @@ export class LoginController implements Controller {
       if(!token)
         return unathorized();
 
-      return token;
+      return ok(token);
     } catch (error){
       return serverError(error)
     }
