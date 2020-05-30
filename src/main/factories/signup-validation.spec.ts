@@ -9,7 +9,7 @@ describe('Signup Validation Factorie', () => {
   test('Should call ValidationComposite with all validations', () => {
     makeSignUpValidation();
     const validations: IValidation[] = [];
-    for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {
+    for (const field of ['name', 'email', 'password', 'passwordConfirm']) {
       validations.push(new RequiredFieldValidation(field));
     }
     expect(ValidationComposite).toHaveBeenCalledWith(validations);
