@@ -43,4 +43,11 @@ describe('Validation Composite', () => {
 
     expect(error).toEqual(new Error());
   });
+
+  test('Should not return error if validators success', () => {
+    const { sut } = makeSut();
+    const error = sut.validate({ name: 'any_name' });
+
+    expect(error).toBeFalsy();
+  });
 });
