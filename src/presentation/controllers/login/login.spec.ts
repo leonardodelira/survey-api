@@ -2,7 +2,7 @@ import { LoginController } from './login';
 import { HttpRequest } from '../../protocols';
 import { badRequest, serverError, unathorized, ok } from '../../helpers/http/http-helpers';
 import { MissingParamError } from '../../errors';
-import { IAuthentication } from '../../../domain/usecases/authentication';
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/authentication';
 import { IValidation } from '../../protocols/validation';
 
 interface SutTypes {
@@ -13,7 +13,7 @@ interface SutTypes {
 
 const makeAuthenticationStub = (): IAuthentication => {
   class AuthenticationStub implements IAuthentication {
-    async auth(email: string, password: string): Promise<string> {
+    async auth(authentication: IAuthenticationModel): Promise<string> {
       return await new Promise((resolve) => resolve('any_token'));
     }
   }
@@ -54,7 +54,7 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut();
     const authSpy = jest.spyOn(authenticationStub, 'auth');
     await sut.handle(makeFakeRequest());
-    expect(authSpy).toHaveBeenCalledWith('email@email.com', '123');
+    expect(authSpy).toHaveBeenCalledWith({ email: 'email@email.com', password: '123' });
   });
 
   test('Should return 401 if invalid credentials are provided', async () => {
