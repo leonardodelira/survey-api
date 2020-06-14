@@ -1,6 +1,6 @@
 import { LoginController } from './login';
 import { HttpRequest } from '../../protocols';
-import { badRequest, serverError, unathorized, ok } from '../../helpers/http-helpers';
+import { badRequest, serverError, unathorized, ok } from '../../helpers/http/http-helpers';
 import { MissingParamError } from '../../errors';
 import { IAuthentication } from '../../../domain/usecases/authentication';
 import { IValidation } from '../../helpers/validators/validation';

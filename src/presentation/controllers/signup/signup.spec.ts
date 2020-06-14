@@ -2,7 +2,7 @@ import { SignUpController } from './signup';
 import { MissingParamError, ServerError } from '../../errors';
 import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/add-account';
 import { IAccountModel } from '../../../domain/models/account';
-import { ok, serverError, badRequest } from '../../helpers/http-helpers';
+import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
 import { IValidation } from '../../helpers/validators/validation';
 
 interface SutTypes {
