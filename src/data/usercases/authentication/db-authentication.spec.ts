@@ -5,7 +5,7 @@ import { DbAuthentication } from './db-authentication';
 const makeFakeAccount = (): IAccountModel => ({
   id: 1,
   name: 'any_name',
-  email: 'any_email',
+  email: 'any_email@email.com',
   password: 'any_password',
 });
 
@@ -38,12 +38,14 @@ describe('DbAuthentication UseCase', () => {
   test('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load');
-
-    await sut.auth({
-      email: 'any_email@email.com',
-      password: 'any_password@password.com',
-    });
-
+    await sut.auth(makeFakeAccount());
     expect(loadSpy).toHaveBeenCalledWith('any_email@email.com');
+  });
+
+  test('Should throw if LoadAccountByEmailRepository throws', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+    const promise = sut.auth(makeFakeAccount());
+    await expect(promise).rejects.toThrow();
   });
 });
