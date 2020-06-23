@@ -1,10 +1,5 @@
-import {
-  IAddAccount,
-  IAddAccountModel,
-  IAccountModel,
-  IEncrypter,
-  IAddAccountRepository,
-} from './db-add-account-protocols';
+import { IAddAccount, IAddAccountModel, IAccountModel, IAddAccountRepository } from './db-add-account-protocols';
+import { IEncrypter } from '../../protocols/criptography/encrypter';
 
 export class DbAddAccount implements IAddAccount {
   private readonly _encrypter: IEncrypter;

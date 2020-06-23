@@ -1,4 +1,4 @@
-import { ILogErrorRepository } from '../../../../data/protocols/log-error-repository';
+import { ILogErrorRepository } from '../../../../data/protocols/db/log-error-repository';
 import { MongoHelper } from '../../mongodb/helpers/mongo-helper';
 
 export class LogMongoRepository implements ILogErrorRepository {
@@ -6,7 +6,7 @@ export class LogMongoRepository implements ILogErrorRepository {
     const errorCollection = await MongoHelper.getCollection('errors');
     await errorCollection.insertOne({
       stack,
-      date: new Date()
+      date: new Date(),
     });
   }
 }

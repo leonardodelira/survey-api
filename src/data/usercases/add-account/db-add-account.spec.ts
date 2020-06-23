@@ -1,5 +1,6 @@
 import { DbAddAccount } from './db-add-account';
-import { IEncrypter, IAddAccountModel, IAddAccountRepository, IAccountModel } from './db-add-account-protocols';
+import { IAddAccountModel, IAddAccountRepository, IAccountModel } from './db-add-account-protocols';
+import { IEncrypter } from '../../protocols/criptography/encrypter';
 
 interface SutTypes {
   sut: DbAddAccount;
@@ -83,9 +84,7 @@ describe('DbAddAccount Usercase', () => {
 
   test('Should throws if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut();
-    jest
-      .spyOn(addAccountRepositoryStub, 'add')
-      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
 
     const promisse = sut.add(makeAccountFake());
     await expect(promisse).rejects.toThrow();
