@@ -1,15 +1,23 @@
 import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/authentication';
 import { ILoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository';
+import { IHashCompare } from '../../protocols/criptography/hash-compare';
 
 export class DbAuthentication implements IAuthentication {
-  private readonly loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository;
+  private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository;
+  private readonly hashCompare: IHashCompare;
 
-  constructor(loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository) {
-    this.loadAccountByEmailRepositoryStub = loadAccountByEmailRepositoryStub;
+  constructor(loadAccountByEmailRepository: ILoadAccountByEmailRepository, hashCompare: IHashCompare) {
+    this.loadAccountByEmailRepository = loadAccountByEmailRepository;
+    this.hashCompare = hashCompare;
   }
 
   async auth(authentication: IAuthenticationModel): Promise<string> {
-    await this.loadAccountByEmailRepositoryStub.load(authentication.email);
+    const account = await this.loadAccountByEmailRepository.load(authentication.email);
+
+    if (account) {
+      await this.hashCompare.compare(authentication.password, account.password);
+    }
+
     return null;
   }
 }
