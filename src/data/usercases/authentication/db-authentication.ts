@@ -25,7 +25,7 @@ export class DbAuthentication implements IAuthentication {
 
       if (passwordCorrect) {
         const accessToken = await this.tokenGenerator.generate(account.id);
-        await this.updateAccessTokenGenerator.update(account.id, accessToken);
+        await this.updateAccessTokenGenerator.updateAccessToken(account.id, accessToken);
         return accessToken;
       }
     }

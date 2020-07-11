@@ -48,7 +48,7 @@ const makeTokenGenerator = (): ITokenGenerator => {
 
 const makeUpdateAccessTokenStub = (): IUpdateAccessTokenRepository => {
   class UpdateAccessTokenStub implements IUpdateAccessTokenRepository {
-    async update(id: number, token: string): Promise<void> {
+    async updateAccessToken(id: number, token: string): Promise<void> {
       await new Promise((resolve) => resolve());
     }
   }
@@ -144,7 +144,7 @@ describe('DbAuthentication UseCase', () => {
 
   test('Should call UpdateAcesssTokenRepository with correct token', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut();
-    const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'update');
+    const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken');
     await sut.auth(makeFakeAccountAuthentication());
     expect(updateSpy).toHaveBeenCalledWith(1, 'any_token');
   });
