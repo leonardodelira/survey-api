@@ -39,7 +39,7 @@ const makeHashCompare = (): IHashCompare => {
 
 const makeTokenGenerator = (): ITokenGenerator => {
   class TokenGeneratorStub implements ITokenGenerator {
-    async generate(id: number): Promise<string> {
+    async generate(value: string): Promise<string> {
       return await new Promise((resolve) => resolve('any_token'));
     }
   }

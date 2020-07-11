@@ -1,3 +1,3 @@
 export interface ITokenGenerator {
-  generate(id: number): Promise<string>;
+  generate(value: any): Promise<string>;
 }
