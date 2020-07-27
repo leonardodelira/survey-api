@@ -1,10 +1,10 @@
-import { ILoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository';
+import { ILoadAccountByEmailRepository } from '../../protocols/db/account/load-account-by-email-repository';
 import { IAccountModel } from '../../../domain/models/account';
 import { DbAuthentication } from './db-authentication';
 import { IAuthenticationModel } from '../../../domain/usecases/authentication';
 import { IHashCompare } from '../../protocols/criptography/hash-compare';
 import { ITokenGenerator } from '../../protocols/criptography/token-generator';
-import { IUpdateAccessTokenRepository } from '../../protocols/db/update-access-token-repository';
+import { IUpdateAccessTokenRepository } from '../../protocols/db/account/update-access-token-repository';
 
 const makeFakeAccount = (): IAccountModel => ({
   id: 1,

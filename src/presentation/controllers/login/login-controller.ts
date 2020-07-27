@@ -4,13 +4,7 @@ import { IAuthentication } from '../../../domain/usecases/authentication';
 import { IValidation } from '../../protocols/validation';
 
 export class LoginController implements Controller {
-  private readonly authentication: IAuthentication;
-  private readonly validation: IValidation;
-
-  constructor(authentication: IAuthentication, validation: IValidation) {
-    this.authentication = authentication;
-    this.validation = validation;
-  }
+  constructor(private readonly authentication: IAuthentication, private readonly validation: IValidation) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
