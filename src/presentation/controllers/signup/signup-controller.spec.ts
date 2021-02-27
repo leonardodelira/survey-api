@@ -4,6 +4,7 @@ import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/add-acco
 import { IAccountModel } from '../../../domain/models/account';
 import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
 import { IValidation } from '../../protocols/validation';
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/authentication';
 
 interface SutTypes {
   sut: SignUpController;
@@ -37,10 +38,20 @@ const makeValidation = (): IValidation => {
   return new ValidationStub();
 };
 
+const makeAuthenticationStub = (): IAuthentication => {
+  class AuthenticationStub implements IAuthentication {
+    async auth(authentication: IAuthenticationModel): Promise<string> {
+      return await new Promise((resolve) => resolve('any_token'));
+    }
+  }
+  return new AuthenticationStub();
+};
+
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount();
   const validationStub = makeValidation();
-  const sut = new SignUpController(addAccountStub, validationStub);
+  const authenticationStub = makeAuthenticationStub();
+  const sut = new SignUpController(addAccountStub, validationStub, authenticationStub);
 
   return {
     sut,
