@@ -49,7 +49,7 @@ const makeTokenGenerator = (): ITokenGenerator => {
 const makeUpdateAccessTokenStub = (): IUpdateAccessTokenRepository => {
   class UpdateAccessTokenStub implements IUpdateAccessTokenRepository {
     async updateAccessToken(id: number, token: string): Promise<void> {
-      await new Promise((resolve) => resolve());
+      await new Promise((resolve) => resolve(true));
     }
   }
   return new UpdateAccessTokenStub();
