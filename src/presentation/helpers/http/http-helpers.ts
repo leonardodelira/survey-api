@@ -25,3 +25,8 @@ export const noContent = (): HttpResponse => ({
   statusCode: 204,
   body: null,
 });
+
+export const forbidden = (instanceError: Error): HttpResponse => ({
+  statusCode: 403,
+  body: instanceError,
+});
