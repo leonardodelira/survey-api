@@ -19,10 +19,10 @@ describe('Login Routes', () => {
     await surveyCollection.deleteMany({});
   });
 
-  describe('POST /survey', () => {
+  describe('POST /surveys', () => {
     test('Should return 204 on add survey success', async () => {
       await request(app)
-        .post('/api/survey')
+        .post('/api/surveys')
         .send({
           question: 'Question 1',
           answers: [{
