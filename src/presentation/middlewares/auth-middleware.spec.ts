@@ -69,5 +69,4 @@ describe('Auth Middleware', () => {
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(ok({ accountId: 1 }))
   })
-
 })

@@ -6,9 +6,7 @@ import { HttpRequest, HttpResponse, IMiddleware } from '../protocols';
 export class AuthMiddleware implements IMiddleware {
   constructor(
     private readonly loadAccountByToken: ILoadAccountByToken
-  ) {
-
-  }
+  ) { }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const accessToken = httpRequest.headers?.['x-access-token']
