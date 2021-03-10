@@ -5,7 +5,8 @@ import { HttpRequest, HttpResponse, IMiddleware } from '../protocols';
 
 export class AuthMiddleware implements IMiddleware {
   constructor(
-    private readonly loadAccountByToken: ILoadAccountByToken
+    private readonly loadAccountByToken: ILoadAccountByToken,
+    private readonly role?: string
   ) { }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -13,7 +14,7 @@ export class AuthMiddleware implements IMiddleware {
       const accessToken = httpRequest.headers?.['x-access-token']
 
       if (accessToken) {
-        const account = await this.loadAccountByToken.load(httpRequest.headers['x-access-token']);
+        const account = await this.loadAccountByToken.load(httpRequest.headers['x-access-token'], this.role);
         if (account) {
           return ok({ accountId: account.id })
         }
