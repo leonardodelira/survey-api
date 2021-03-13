@@ -36,7 +36,9 @@ describe('Account Mongo Repository', () => {
       expect(account.email).toBe('any_email');
       expect(account.password).toBe('any_password');
     });
+  });
 
+  describe('loadByEmail()', () => {
     test('Should return an account on loadByEmail success', async () => {
       const sut = makeSut();
       await sut.add({
@@ -51,9 +53,7 @@ describe('Account Mongo Repository', () => {
       expect(account.email).toBe('any_email');
       expect(account.password).toBe('any_password');
     });
-  });
 
-  describe('loadByEmail()', () => {
     test('Should return null if account not exists', async () => {
       const sut = makeSut();
       const account = await sut.loadByEmail('any_email');
@@ -74,6 +74,24 @@ describe('Account Mongo Repository', () => {
       const account = await accountCollection.findOne({ _id: res.ops[0]._id });
       expect(account).toBeTruthy();
       expect(account.accessToken).toBe('any_token');
+    });
+  });
+
+  describe('loadByToken()', () => {
+    test('Should return an account on loadByToken success without role', async () => {
+      const sut = makeSut();
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email',
+        password: 'any_password',
+        accessToken: 'any_token'
+      });
+      const account = await sut.loadByToken('any_token');
+      expect(account).toBeTruthy();
+      expect(account.id).toBeTruthy();
+      expect(account.name).toBe('any_name');
+      expect(account.email).toBe('any_email');
+      expect(account.password).toBe('any_password');
     });
   });
 });
