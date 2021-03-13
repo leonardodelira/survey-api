@@ -4,8 +4,9 @@ import { IAccountModel } from '../../../../domain/models/account';
 import { MongoHelper } from '../helpers/mongo-helper';
 import { ILoadAccountByEmailRepository } from '../../../../data/protocols/db/account/load-account-by-email-repository';
 import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/account/update-access-token-repository';
+import { ILoadAccountByTokenRepository } from '../../../../data/protocols/db/account/load-account-by-token-repository';
 
-export class AccountMongoRepository implements IAddAccountRepository, ILoadAccountByEmailRepository, IUpdateAccessTokenRepository {
+export class AccountMongoRepository implements IAddAccountRepository, ILoadAccountByEmailRepository, IUpdateAccessTokenRepository, ILoadAccountByTokenRepository {
   async add(accountData: IAddAccountModel): Promise<IAccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const result = await accountCollection.insertOne(accountData);
@@ -33,5 +34,12 @@ export class AccountMongoRepository implements IAddAccountRepository, ILoadAccou
         },
       }
     );
+  }
+
+  async loadByToken(token: string, role?: string): Promise<IAccountModel> {
+    const accountCollection = await MongoHelper.getCollection('accounts');
+    const account = await accountCollection.findOne({ accessToken: token, role });
+
+    return MongoHelper.map(account);
   }
 }
