@@ -40,6 +40,8 @@ export class AccountMongoRepository implements IAddAccountRepository, ILoadAccou
     const accountCollection = await MongoHelper.getCollection('accounts');
     const account = await accountCollection.findOne({ accessToken: token, role });
 
+    if (!account) return null
+
     return MongoHelper.map(account);
   }
 }
