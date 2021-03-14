@@ -43,6 +43,7 @@ describe('Login Routes', () => {
         email: 'leonardo.lira@hotmail.com',
         password,
       });
+
       await request(app)
         .post('/api/login')
         .send({
