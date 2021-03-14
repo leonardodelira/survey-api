@@ -9,6 +9,7 @@ export const adaptMiddleware = (middleware: AuthMiddleware) => {
     };
 
     const response = await middleware.handle(httpRequest);
+
     if (response.statusCode === 200) {
       Object.assign(req, httpRequest.body)
       next()
