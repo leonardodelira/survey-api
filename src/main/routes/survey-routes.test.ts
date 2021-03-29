@@ -31,6 +31,39 @@ describe('Login Routes', () => {
         .get('/api/surveys')
         .expect(403);
     });
+
+    test('Should return 200 on load surveys success', async () => {
+      const res = await accountCollection.insertOne({
+        name: 'Leonardo',
+        email: 'leonardo.lira@hotmail.com',
+        password: '123',
+        role: 'admin'
+      });
+
+      const id = res.ops[0]._id;
+      const accessToken = sign({ id }, env.jwt)
+      await accountCollection.updateOne({
+        _id: id,
+      }, {
+        $set: {
+          accessToken
+        }
+      })
+
+      await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [{
+          image: 'any_image',
+          answer: 'any_answer'
+        }],
+        date: new Date()
+      })
+
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .expect(200);
+    });
   });
 
   describe('POST /surveys', () => {
