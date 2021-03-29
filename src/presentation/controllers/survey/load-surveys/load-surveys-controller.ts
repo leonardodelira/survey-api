@@ -1,5 +1,5 @@
 import { ILoadSurveys } from '../../../../domain/usecases/load-surveys';
-import { ok } from '../../../helpers/http/http-helpers';
+import { ok, serverError } from '../../../helpers/http/http-helpers';
 import { Controller, HttpRequest, HttpResponse } from '../../../protocols';
 
 export default class LoadSurveysController implements Controller {
@@ -8,7 +8,11 @@ export default class LoadSurveysController implements Controller {
   ) { }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const surveys = await this.loadSurveys.load();
-    return ok(surveys);
+    try {
+      const surveys = await this.loadSurveys.load();
+      return ok(surveys);
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
