@@ -4,7 +4,7 @@ import { makeLogControllerDecorator } from '../../../decorators/log-controller-d
 import { makeAddSurveyValidation } from './add-survey-validation-factory';
 import { makeDbAddSurvey } from '../../../usecases/survey/add-survey/db-add-survey-factory';
 
-export const makeSurveyController = (): Controller => {
+export const makeAddSurveyController = (): Controller => {
   const surveyController = new AddSurveyController(makeAddSurveyValidation(), makeDbAddSurvey());
   return makeLogControllerDecorator(surveyController);
 };
