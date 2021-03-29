@@ -1,13 +1,11 @@
+import { ISurveyAnswerModel } from '../models/survey';
+
 export interface IAddSurveyModel {
   question: string;
-  answers: SurveyAnswer[];
+  answers: ISurveyAnswerModel[];
   date: Date;
 }
 
-interface SurveyAnswer {
-  image?: string;
-  answer: string;
-}
 
 export interface IAddSurvey {
   add(data: IAddSurveyModel): Promise<void>;
