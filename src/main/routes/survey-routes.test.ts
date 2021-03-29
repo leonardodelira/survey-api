@@ -8,6 +8,27 @@ import env from '../config/env';
 let surveyCollection: Collection;
 let accountCollection: Collection;
 
+const makeAccesssToken = async (): Promise<string> => {
+  const res = await accountCollection.insertOne({
+    name: 'Leonardo',
+    email: 'leonardo.lira@hotmail.com',
+    password: '123',
+    role: 'admin'
+  });
+
+  const id = res.ops[0]._id;
+  const accessToken = sign({ id }, env.jwt)
+  await accountCollection.updateOne({
+    _id: id,
+  }, {
+    $set: {
+      accessToken
+    }
+  })
+
+  return accessToken
+}
+
 describe('Login Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
@@ -33,22 +54,7 @@ describe('Login Routes', () => {
     });
 
     test('Should return 200 on load surveys success', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Leonardo',
-        email: 'leonardo.lira@hotmail.com',
-        password: '123',
-        role: 'admin'
-      });
-
-      const id = res.ops[0]._id;
-      const accessToken = sign({ id }, env.jwt)
-      await accountCollection.updateOne({
-        _id: id,
-      }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccesssToken();
 
       await surveyCollection.insertOne({
         question: 'any_question',
@@ -84,22 +90,7 @@ describe('Login Routes', () => {
     });
 
     test('Should return 204 on add survey success', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Leonardo',
-        email: 'leonardo.lira@hotmail.com',
-        password: '123',
-        role: 'admin'
-      });
-
-      const id = res.ops[0]._id;
-      const accessToken = sign({ id }, env.jwt)
-      await accountCollection.updateOne({
-        _id: id,
-      }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccesssToken();
 
       await request(app)
         .post('/api/surveys')
