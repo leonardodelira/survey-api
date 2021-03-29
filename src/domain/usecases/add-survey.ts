@@ -1,6 +1,7 @@
 export interface IAddSurveyModel {
   question: string;
   answers: SurveyAnswer[];
+  date: Date;
 }
 
 interface SurveyAnswer {
