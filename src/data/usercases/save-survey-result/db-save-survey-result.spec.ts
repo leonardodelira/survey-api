@@ -11,7 +11,6 @@ const makeFakeSurveyResultData = (): ISaveSurveyResultModel => ({
   date: new Date()
 })
 
-
 const makeFakeSurveyResult = (): ISurveyResultModel => Object.assign({}, makeFakeSurveyResultData(), {
   id: 'any_id',
 })
@@ -64,5 +63,11 @@ describe('DbSaveSurveyResult UseCase', () => {
 
     const promisse = sut.save(makeFakeSurveyResultData());
     await expect(promisse).rejects.toThrow();
+  });
+
+  test('Should return SurveyResult on success', async () => {
+    const { sut } = makeSut();
+    const surveyResult = await sut.save(makeFakeSurveyResultData());
+    expect(surveyResult).toEqual(makeFakeSurveyResult())
   });
 })
