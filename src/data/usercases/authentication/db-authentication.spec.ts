@@ -7,7 +7,7 @@ import { ITokenGenerator } from '../../protocols/criptography/token-generator';
 import { IUpdateAccessTokenRepository } from '../../protocols/db/account/update-access-token-repository';
 
 const makeFakeAccount = (): IAccountModel => ({
-  id: 1,
+  id: '1',
   name: 'any_name',
   email: 'any_email@email.com',
   password: 'hashed_password',
@@ -48,7 +48,7 @@ const makeTokenGenerator = (): ITokenGenerator => {
 
 const makeUpdateAccessTokenStub = (): IUpdateAccessTokenRepository => {
   class UpdateAccessTokenStub implements IUpdateAccessTokenRepository {
-    async updateAccessToken(id: number, token: string): Promise<void> {
+    async updateAccessToken(id: string, token: string): Promise<void> {
       await new Promise((resolve) => resolve(true));
     }
   }
@@ -126,7 +126,7 @@ describe('DbAuthentication UseCase', () => {
     const { sut, tokenGeneratorStub } = makeSut();
     const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate');
     await sut.auth(makeFakeAccount());
-    expect(generateSpy).toHaveBeenCalledWith(1);
+    expect(generateSpy).toHaveBeenCalledWith('1');
   });
 
   test('Should throw if TokenGenerator throws', async () => {
@@ -146,6 +146,6 @@ describe('DbAuthentication UseCase', () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut();
     const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken');
     await sut.auth(makeFakeAccountAuthentication());
-    expect(updateSpy).toHaveBeenCalledWith(1, 'any_token');
+    expect(updateSpy).toHaveBeenCalledWith('1', 'any_token');
   });
 });

@@ -1,5 +1,5 @@
 export interface IAccountModel {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: string;

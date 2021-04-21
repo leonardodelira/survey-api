@@ -10,7 +10,7 @@ interface SutTypes {
 }
 
 const makeFakeAccount = (): IAccountModel => ({
-  id: 1,
+  id: '1',
   name: 'any_name',
   email: 'any_email@email.com',
   password: 'hashed_password',

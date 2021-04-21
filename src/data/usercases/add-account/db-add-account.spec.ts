@@ -20,7 +20,7 @@ const makeEncrypter = (): IHasher => {
 };
 
 const makeFakeAccount = (): IAccountModel => ({
-  id: 1,
+  id: '1',
   name: 'any_name',
   email: 'any_email@email.com',
   password: 'hashed_password',
@@ -40,7 +40,7 @@ const makeAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
     async add(account: IAddAccountModel): Promise<IAccountModel> {
       const fakeAccount = {
-        id: 1,
+        id: '1',
         name: 'name_valid',
         email: 'email_valid',
         password: 'hashed_password',
@@ -116,7 +116,7 @@ describe('DbAddAccount Usercase', () => {
 
     const account = await sut.add(makeAccountFake());
     expect(account).toEqual({
-      id: 1,
+      id: '1',
       name: 'name_valid',
       email: 'email_valid',
       password: 'hashed_password',

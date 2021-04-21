@@ -16,7 +16,7 @@ const makeAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
     async add(account: IAddAccountModel): Promise<IAccountModel> {
       const newAccount = {
-        id: 1,
+        id: '1',
         name: 'valid_name',
         email: 'valid_email@email.com',
         password: 'hashed',
@@ -119,7 +119,7 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse).toEqual(
       ok({
-        id: 1,
+        id: '1',
         name: 'valid_name',
         email: 'valid_email@email.com',
         password: 'hashed',
