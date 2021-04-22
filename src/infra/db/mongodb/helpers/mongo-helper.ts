@@ -18,7 +18,7 @@ export const MongoHelper = {
   },
 
   async getCollection(name: string): Promise<Collection> {
-    if(!this.client?.isConnected()) {
+    if (!this.client?.isConnected()) {
       await this.connect(this.uri)
     }
 
@@ -32,5 +32,9 @@ export const MongoHelper = {
       id: _id,
       ...collectionWithOutId,
     };
+  },
+
+  mapCollection(collectionData: any[]): any[] {
+    return collectionData.map(c => MongoHelper.map(c));
   },
 };
