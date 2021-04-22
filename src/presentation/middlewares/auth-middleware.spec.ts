@@ -1,5 +1,5 @@
 import { IAccountModel } from '../../domain/models/account';
-import { ILoadAccountByToken } from '../../domain/usecases/load-account-by-token';
+import { ILoadAccountByToken } from '../../domain/usecases/account/load-account-by-token';
 import { AccessDeniedError } from '../errors';
 import { forbidden, ok, serverError } from '../helpers/http/http-helpers';
 import { HttpRequest } from '../protocols';

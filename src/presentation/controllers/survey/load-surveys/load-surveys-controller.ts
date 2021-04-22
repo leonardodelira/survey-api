@@ -1,4 +1,4 @@
-import { ILoadSurveys } from '../../../../domain/usecases/load-surveys';
+import { ILoadSurveys } from '../../../../domain/usecases/survey/load-surveys';
 import { noContent, ok, serverError } from '../../../helpers/http/http-helpers';
 import { Controller, HttpRequest, HttpResponse } from '../../../protocols';
 

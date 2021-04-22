@@ -1,10 +1,10 @@
 import { SignUpController } from './signup-controller';
 import { MissingParamError, ServerError } from '../../errors';
-import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/add-account';
+import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/account/add-account';
 import { IAccountModel } from '../../../domain/models/account';
 import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
 import { IValidation } from '../../protocols/validation';
-import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/authentication';
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/account/authentication';
 
 interface SutTypes {
   sut: SignUpController;
