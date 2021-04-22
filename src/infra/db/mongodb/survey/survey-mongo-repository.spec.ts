@@ -58,6 +58,7 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut();
       const surveys = await sut.loadAll();
       expect(surveys.length).toBe(2);
+      expect(surveys[0].id).toBeTruthy();
       expect(surveys[0].question).toEqual('any_question');
       expect(surveys[1].question).toEqual('other_question');
     })
@@ -81,6 +82,7 @@ describe('Survey Mongo Repository', () => {
       const survey = await sut.loadById(id);
       expect(survey).toBeTruthy();
       expect(survey.question).toEqual('any_question');
+      expect(survey.id).toBeTruthy();
     });
   })
 })
