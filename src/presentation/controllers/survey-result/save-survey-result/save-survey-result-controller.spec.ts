@@ -3,7 +3,7 @@ import { ILoadSurveyById } from '../../../../domain/usecases/survey/load-survey-
 import MockDate from 'mockdate'
 import { HttpRequest } from '../../../protocols'
 import { SaveSurveyResultController } from './save-survey-result-controller'
-import { forbidden } from '../../../helpers/http/http-helpers'
+import { forbidden, serverError } from '../../../helpers/http/http-helpers'
 import { InvalidParamError } from '../../../errors'
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -70,5 +70,12 @@ describe('SaveSurveyResult Controller', () => {
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(new Promise(resolve => resolve(null)));
     const hhtpResponse = await sut.handle(makeFakeRequest());
     expect(hhtpResponse).toEqual(forbidden(new InvalidParamError('surveyId')))
+  })
+
+  test('Should return 500 if LoadSurveyById throws', async () => {
+    const { sut, loadSurveyByIdStub } = makeSut();
+    jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+    const hhtpResponse = await sut.handle(makeFakeRequest());
+    expect(hhtpResponse).toEqual(serverError(new Error()))
   })
 })
