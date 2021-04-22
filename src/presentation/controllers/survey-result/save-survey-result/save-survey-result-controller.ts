@@ -1,7 +1,7 @@
-import { ISaveSurveyResult, ISaveSurveyResultModel } from '../../../../domain/usecases/survey-result/save-survey-result';
+import { ISaveSurveyResult } from '../../../../domain/usecases/survey-result/save-survey-result';
 import { ILoadSurveyById } from '../../../../domain/usecases/survey/load-survey-by-id';
 import { InvalidParamError } from '../../../errors';
-import { forbidden, serverError } from '../../../helpers/http/http-helpers';
+import { forbidden, ok, serverError } from '../../../helpers/http/http-helpers';
 import { Controller, HttpRequest, HttpResponse } from '../../../protocols';
 
 export class SaveSurveyResultController implements Controller {
@@ -21,18 +21,17 @@ export class SaveSurveyResultController implements Controller {
           return forbidden(new InvalidParamError('answer'))
         }
 
-        const surveyResult: ISaveSurveyResultModel = {
+        const surveyResult = await this.saveSurveyResult.save({
           accountId: httpRequest.accountId,
           surveyId,
           answer,
           date: new Date()
-        }
-        await this.saveSurveyResult.save(surveyResult);
+        });
+
+        return ok(surveyResult);
       } else {
         return forbidden(new InvalidParamError('surveyId'));
       }
-
-      return null;
     } catch (err) {
       return serverError(err);
     }
