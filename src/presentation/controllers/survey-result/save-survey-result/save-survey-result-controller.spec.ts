@@ -2,7 +2,7 @@ import { ISurveyModel } from '../../../../domain/models/survey'
 import { ILoadSurveyById } from '../../../../domain/usecases/survey/load-survey-by-id'
 import { HttpRequest } from '../../../protocols'
 import { SaveSurveyResultController } from './save-survey-result-controller'
-import { forbidden, serverError } from '../../../helpers/http/http-helpers'
+import { forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
 import { InvalidParamError } from '../../../errors'
 import MockDate from 'mockdate'
 import { ISaveSurveyResult, ISaveSurveyResultModel } from '../../../../domain/usecases/survey-result/save-survey-result'
@@ -129,5 +129,11 @@ describe('SaveSurveyResult Controller', () => {
       date: new Date(),
       answer: 'any_answer'
     })
+  })
+
+  test('Should return 200 on sucesss', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(ok(makeFakeSurveyResult()))
   })
 })
