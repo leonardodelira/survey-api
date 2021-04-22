@@ -1,6 +1,6 @@
 import { ILoadSurveyById } from '../../../../domain/usecases/survey/load-survey-by-id';
 import { InvalidParamError } from '../../../errors';
-import { forbidden } from '../../../helpers/http/http-helpers';
+import { forbidden, serverError } from '../../../helpers/http/http-helpers';
 import { Controller, HttpRequest, HttpResponse } from '../../../protocols';
 
 export class SaveSurveyResultController implements Controller {
@@ -9,11 +9,15 @@ export class SaveSurveyResultController implements Controller {
   ) { }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const survey = await this.loadSurveyById.loadById(httpRequest.params.surveyId);
-    if (!survey) {
-      return forbidden(new InvalidParamError('surveyId'));
-    }
+    try {
+      const survey = await this.loadSurveyById.loadById(httpRequest.params.surveyId);
+      if (!survey) {
+        return forbidden(new InvalidParamError('surveyId'));
+      }
 
-    return null;
+      return null;
+    } catch (err) {
+      return serverError(err);
+    }
   }
 }
