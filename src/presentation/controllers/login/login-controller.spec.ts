@@ -2,7 +2,7 @@ import { LoginController } from './login-controller';
 import { HttpRequest } from '../../protocols';
 import { badRequest, serverError, unathorized, ok } from '../../helpers/http/http-helpers';
 import { MissingParamError } from '../../errors';
-import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/authentication';
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/account/authentication';
 import { IValidation } from '../../protocols/validation';
 
 interface SutTypes {

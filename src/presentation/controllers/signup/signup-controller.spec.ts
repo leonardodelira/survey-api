@@ -1,10 +1,10 @@
 import { SignUpController } from './signup-controller';
 import { MissingParamError, ServerError } from '../../errors';
-import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/add-account';
+import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/account/add-account';
 import { IAccountModel } from '../../../domain/models/account';
 import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
 import { IValidation } from '../../protocols/validation';
-import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/authentication';
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/account/authentication';
 
 interface SutTypes {
   sut: SignUpController;
@@ -16,7 +16,7 @@ const makeAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
     async add(account: IAddAccountModel): Promise<IAccountModel> {
       const newAccount = {
-        id: 1,
+        id: '1',
         name: 'valid_name',
         email: 'valid_email@email.com',
         password: 'hashed',
@@ -119,7 +119,7 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse).toEqual(
       ok({
-        id: 1,
+        id: '1',
         name: 'valid_name',
         email: 'valid_email@email.com',
         password: 'hashed',

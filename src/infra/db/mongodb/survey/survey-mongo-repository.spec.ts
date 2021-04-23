@@ -58,6 +58,7 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut();
       const surveys = await sut.loadAll();
       expect(surveys.length).toBe(2);
+      expect(surveys[0].id).toBeTruthy();
       expect(surveys[0].question).toEqual('any_question');
       expect(surveys[1].question).toEqual('other_question');
     })
@@ -67,5 +68,21 @@ describe('Survey Mongo Repository', () => {
       const surveys = await sut.loadAll();
       expect(surveys.length).toBe(0);
     })
+  })
+
+  describe('loadById()', () => {
+    test('Should load survey by id on success', async () => {
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [{ answer: 'any_answer' }],
+        date: new Date()
+      });
+      const id = res.ops[0]._id;
+      const sut = makeSut();
+      const survey = await sut.loadById(id);
+      expect(survey).toBeTruthy();
+      expect(survey.question).toEqual('any_question');
+      expect(survey.id).toBeTruthy();
+    });
   })
 })

@@ -1,5 +1,5 @@
 import { IAccountModel } from '../../domain/models/account';
-import { ILoadAccountByToken } from '../../domain/usecases/load-account-by-token';
+import { ILoadAccountByToken } from '../../domain/usecases/account/load-account-by-token';
 import { AccessDeniedError } from '../errors';
 import { forbidden, ok, serverError } from '../helpers/http/http-helpers';
 import { HttpRequest } from '../protocols';
@@ -12,7 +12,7 @@ const makeFakeRequest = (): HttpRequest => ({
 })
 
 const makeFakeAccount = (): IAccountModel => ({
-  id: 1,
+  id: '1',
   name: 'any_name',
   email: 'any_email@email.com',
   password: 'hashed_password',
@@ -68,7 +68,7 @@ describe('Auth Middleware', () => {
   test('Should return 200 if LoadAccountByToken retuns an account', async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(ok({ accountId: 1 }))
+    expect(httpResponse).toEqual(ok({ accountId: '1' }))
   })
 
   test('Should return 500 if LoadAccountByToken throws', async () => {

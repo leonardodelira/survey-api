@@ -1,8 +1,8 @@
-import { ISurveyModel } from '../../../../domain/models/survey'
-import { ILoadSurveys } from '../../../../domain/usecases/load-surveys'
+import { ISurveyModel } from '../../../../domain/models/survey';
 import { noContent, ok, serverError } from '../../../helpers/http/http-helpers';
 import LoadSurveysController from './load-surveys-controller';
 import MockDate from 'mockdate';
+import { ILoadSurveys } from '../../../../domain/usecases/survey/load-surveys';
 
 const makeFakeSurveys = (): ISurveyModel[] => {
   const surveys = [
