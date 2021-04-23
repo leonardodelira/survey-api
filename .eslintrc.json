@@ -1,14 +1,20 @@
 {
-    "extends": ["standard-with-typescript", "prettier"],
+    "extends": [
+        "standard-with-typescript",
+        "prettier"
+    ],
     "parserOptions": {
         "project": "./tsconfig.json"
     },
-    "plugins": ["prettier"],
+    "plugins": [
+        "prettier"
+    ],
     "rules": {
         "space-before-function-paren": "off",
         "@typescript-eslint/space-before-function-paren": "off",
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/member-delimiter-style": "off",
-        "prettier/prettier": "off"
+        "prettier/prettier": "off",
+        "@typescript-eslint/restrict-template-expressions": "off"
     }
 }
