@@ -6,7 +6,7 @@ import { ITokenGenerator } from '../protocols/criptography/token-generator';
 export const mockEncrypter = (): IHasher => {
   class EncrypterSub implements IHasher {
     async hashe(value: string): Promise<string> {
-      return await new Promise((resolve) => resolve('hashed_password'));
+      return await Promise.resolve('hashed_password');
     }
   }
 
@@ -16,7 +16,7 @@ export const mockEncrypter = (): IHasher => {
 export const mockDecrypter = (): IDecrypter => {
   class DecrypterStub implements IDecrypter {
     async decrypt(value: string): Promise<string> {
-      return await new Promise(resolve => resolve('any_token'))
+      return await Promise.resolve('any_token')
     }
   }
 
@@ -26,7 +26,7 @@ export const mockDecrypter = (): IDecrypter => {
 export const mockHashCompare = (): IHashCompare => {
   class HashCompareStub implements IHashCompare {
     async compare(value: string, hash: string): Promise<boolean> {
-      return await new Promise((resolve) => resolve(true));
+      return await Promise.resolve(true);
     }
   }
 
@@ -36,7 +36,7 @@ export const mockHashCompare = (): IHashCompare => {
 export const mockTokenGenerator = (): ITokenGenerator => {
   class TokenGeneratorStub implements ITokenGenerator {
     async generate(value: string): Promise<string> {
-      return await new Promise((resolve) => resolve('any_token'));
+      return await Promise.resolve('any_token');
     }
   }
   return new TokenGeneratorStub();

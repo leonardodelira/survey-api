@@ -74,7 +74,7 @@ describe('DbAuthentication UseCase', () => {
 
   test('Should return null if HashCompare return false', async () => {
     const { sut, hashCompareStub } = makeSut();
-    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(Promise.resolve(false));
     const comparedPassword = await sut.auth(mockAccountModel());
     expect(comparedPassword).toBeNull();
   });

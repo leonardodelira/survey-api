@@ -5,7 +5,7 @@ import { ISaveSurveyResult, ISaveSurveyResultModel } from '../../domain/usecases
 export const mockSaveSurveyResult = (): ISaveSurveyResult => {
   class SaveSurveyResultStub implements ISaveSurveyResult {
     async save(data: ISaveSurveyResultModel): Promise<ISurveyResultModel> {
-      return await new Promise(resolve => resolve(mockFakeSurveyResult()))
+      return await Promise.resolve(mockFakeSurveyResult())
     }
   }
 

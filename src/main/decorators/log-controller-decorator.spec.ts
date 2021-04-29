@@ -17,7 +17,7 @@ const makeController = (): Controller => {
         statusCode: 200,
         body: 'any_body',
       };
-      return await new Promise((resolve) => resolve(httpResponse));
+      return await Promise.resolve(httpResponse);
     }
   }
 
@@ -69,7 +69,7 @@ describe('LogController Decorator', () => {
 
     const error = serverError(fakeError);
 
-    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise((resolve) => resolve(error)));
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(Promise.resolve(error));
 
     const logSpy = jest.spyOn(logErrorRepositoryStub, 'logError');
 

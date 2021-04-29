@@ -7,7 +7,7 @@ import { mockAddAccountRepository, mockEncrypter } from '../../../test';
 export const mockLoadAccountEmailRepositoryStub = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<IAccountModel> {
-      return await new Promise((resolve) => resolve(null));
+      return await Promise.resolve(null);
     }
   }
   return new LoadAccountByEmailRepositoryStub();
@@ -87,7 +87,7 @@ describe('DbAddAccount Usercase', () => {
 
   test('Should return null if LoadAccountByEmailRepository not return null', async () => {
     const { sut, loadAccountEmailRepositoryStub } = makeSut();
-    jest.spyOn(loadAccountEmailRepositoryStub, 'loadByEmail').mockResolvedValueOnce(new Promise(resolve => resolve(mockAccountModel())))
+    jest.spyOn(loadAccountEmailRepositoryStub, 'loadByEmail').mockResolvedValueOnce(Promise.resolve(mockAccountModel()))
     const account = await sut.add(mockAddAccountParams());
     expect(account).toBeNull();
   });

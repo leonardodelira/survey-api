@@ -10,7 +10,7 @@ export const mockAddAccount = (): IAddAccount => {
         email: 'valid_email@email.com',
         password: 'hashed',
       };
-      return await new Promise((resolve) => resolve(newAccount));
+      return await Promise.resolve(newAccount);
     }
   }
 
