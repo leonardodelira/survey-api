@@ -1,5 +1,5 @@
 import { DbAddAccount } from './db-add-account';
-import { IAddAccountModel, IAddAccountRepository, IAccountModel, ILoadAccountByEmailRepository } from './db-add-account-protocols';
+import { IAddAccountParams, IAddAccountRepository, IAccountModel, ILoadAccountByEmailRepository } from './db-add-account-protocols';
 import { IHasher } from '../../../protocols/criptography/hasher';
 
 interface SutTypes {
@@ -38,7 +38,7 @@ const makeLoadAccountEmailRepositoryStub = (): ILoadAccountByEmailRepository => 
 
 const makeAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
-    async add(account: IAddAccountModel): Promise<IAccountModel> {
+    async add(account: IAddAccountParams): Promise<IAccountModel> {
       const fakeAccount = {
         id: '1',
         name: 'name_valid',
@@ -67,7 +67,7 @@ const makeSut = (): SutTypes => {
   };
 };
 
-const makeAccountFake = (): IAddAccountModel => ({
+const makeAccountFake = (): IAddAccountParams => ({
   name: 'name_valid',
   email: 'email_valid',
   password: 'password_valid',

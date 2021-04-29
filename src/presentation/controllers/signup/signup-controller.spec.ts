@@ -1,6 +1,6 @@
 import { SignUpController } from './signup-controller';
 import { MissingParamError, ServerError } from '../../errors';
-import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/account/add-account';
+import { IAddAccount, IAddAccountParams } from '../../../domain/usecases/account/add-account';
 import { IAccountModel } from '../../../domain/models/account';
 import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
 import { IValidation } from '../../protocols/validation';
@@ -14,7 +14,7 @@ interface SutTypes {
 
 const makeAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
-    async add(account: IAddAccountModel): Promise<IAccountModel> {
+    async add(account: IAddAccountParams): Promise<IAccountModel> {
       const newAccount = {
         id: '1',
         name: 'valid_name',
