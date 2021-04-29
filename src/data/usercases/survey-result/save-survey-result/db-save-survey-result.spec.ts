@@ -1,29 +1,8 @@
-import { ISurveyResultModel } from '../../../../domain/models/survey-result';
 import { ISaveSurveyResultRepository } from '../../../protocols/db/survey-result/save-survey-result-repository';
 import { DbSaveSurveyResult } from './db-save-survey-result';
+import { mockFakeSurveyResult, mockFakeSurveyResultData, throwError } from '../../../../domain/test';
+import { mockSaveSurveyResultRepository } from '../../../test';
 import MockDate from 'mockdate'
-import { ISaveSurveyResultModel } from '../../../../domain/usecases/survey-result/save-survey-result';
-
-const makeFakeSurveyResultData = (): ISaveSurveyResultModel => ({
-  accountId: 'any_account_id',
-  surveyId: 'any_survey_id',
-  answer: 'any_answer',
-  date: new Date()
-})
-
-const makeFakeSurveyResult = (): ISurveyResultModel => Object.assign({}, makeFakeSurveyResultData(), {
-  id: 'any_id',
-})
-
-const makeSaveSurveyResultRepository = (): ISaveSurveyResultRepository => {
-  class SaveSurveyResultRepositoryStub implements ISaveSurveyResultRepository {
-    async save(survey: ISaveSurveyResultModel): Promise<ISurveyResultModel> {
-      return await new Promise(resolve => resolve(makeFakeSurveyResult()))
-    }
-  }
-
-  return new SaveSurveyResultRepositoryStub();
-}
 
 interface SutTypes {
   sut: DbSaveSurveyResult,
@@ -31,7 +10,7 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-  const saveSurveyResultRepositoryStub = makeSaveSurveyResultRepository();
+  const saveSurveyResultRepositoryStub = mockSaveSurveyResultRepository();
   const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub);
 
   return {
@@ -52,22 +31,22 @@ describe('DbSaveSurveyResult UseCase', () => {
   test('Should call SaveSurveyResultRepository with correct values', async () => {
     const { sut, saveSurveyResultRepositoryStub } = makeSut();
     const saveSpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save');
-    const surveyResultData = makeFakeSurveyResultData();
+    const surveyResultData = mockFakeSurveyResultData();
     await sut.save(surveyResultData)
     expect(saveSpy).toHaveBeenCalledWith(surveyResultData)
   });
 
   test('Should throws if SaveSurveyResultRepository throws', async () => {
     const { sut, saveSurveyResultRepositoryStub } = makeSut();
-    jest.spyOn(saveSurveyResultRepositoryStub, 'save').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+    jest.spyOn(saveSurveyResultRepositoryStub, 'save').mockImplementationOnce(throwError);
 
-    const promisse = sut.save(makeFakeSurveyResultData());
+    const promisse = sut.save(mockFakeSurveyResultData());
     await expect(promisse).rejects.toThrow();
   });
 
   test('Should return SurveyResult on success', async () => {
     const { sut } = makeSut();
-    const surveyResult = await sut.save(makeFakeSurveyResultData());
-    expect(surveyResult).toEqual(makeFakeSurveyResult())
+    const surveyResult = await sut.save(mockFakeSurveyResultData());
+    expect(surveyResult).toEqual(mockFakeSurveyResult())
   });
 })

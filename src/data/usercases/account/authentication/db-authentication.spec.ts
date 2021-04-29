@@ -1,59 +1,16 @@
 import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/load-account-by-email-repository';
-import { IAccountModel } from '../../../../domain/models/account';
 import { DbAuthentication } from './db-authentication';
 import { IAuthenticationModel } from '../../../../domain/usecases/account/authentication';
 import { IHashCompare } from '../../../protocols/criptography/hash-compare';
 import { ITokenGenerator } from '../../../protocols/criptography/token-generator';
 import { IUpdateAccessTokenRepository } from '../../../protocols/db/account/update-access-token-repository';
-
-const makeFakeAccount = (): IAccountModel => ({
-  id: '1',
-  name: 'any_name',
-  email: 'any_email@email.com',
-  password: 'hashed_password',
-});
+import { mockAccountModel, throwError } from '../../../../domain/test';
+import { mockHashCompare, mockTokenGenerator, mockLoadAccountEmailRepositoryStub, mockUpdateAccessTokenStub } from '../../../test';
 
 const makeFakeAccountAuthentication = (): IAuthenticationModel => ({
   email: 'any_email@email.com',
   password: 'any_password',
 });
-
-const makeLoadAccountEmailRepositoryStub = (): ILoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<IAccountModel> {
-      const account = makeFakeAccount();
-      return await new Promise((resolve) => resolve(account));
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub();
-};
-
-const makeHashCompare = (): IHashCompare => {
-  class HashCompareStub implements IHashCompare {
-    async compare(value: string, hash: string): Promise<boolean> {
-      return await new Promise((resolve) => resolve(true));
-    }
-  }
-  return new HashCompareStub();
-};
-
-const makeTokenGenerator = (): ITokenGenerator => {
-  class TokenGeneratorStub implements ITokenGenerator {
-    async generate(value: string): Promise<string> {
-      return await new Promise((resolve) => resolve('any_token'));
-    }
-  }
-  return new TokenGeneratorStub();
-};
-
-const makeUpdateAccessTokenStub = (): IUpdateAccessTokenRepository => {
-  class UpdateAccessTokenStub implements IUpdateAccessTokenRepository {
-    async updateAccessToken(id: string, token: string): Promise<void> {
-      await new Promise((resolve) => resolve(true));
-    }
-  }
-  return new UpdateAccessTokenStub();
-};
 
 interface SutTypes {
   sut: DbAuthentication;
@@ -64,10 +21,10 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-  const loadAccountByEmailRepositoryStub = makeLoadAccountEmailRepositoryStub();
-  const hashCompareStub = makeHashCompare();
-  const tokenGeneratorStub = makeTokenGenerator();
-  const updateAccessTokenRepositoryStub = makeUpdateAccessTokenStub();
+  const loadAccountByEmailRepositoryStub = mockLoadAccountEmailRepositoryStub();
+  const hashCompareStub = mockHashCompare();
+  const tokenGeneratorStub = mockTokenGenerator();
+  const updateAccessTokenRepositoryStub = mockUpdateAccessTokenStub();
   const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashCompareStub, tokenGeneratorStub, updateAccessTokenRepositoryStub);
 
   return {
@@ -83,21 +40,21 @@ describe('DbAuthentication UseCase', () => {
   test('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail');
-    await sut.auth(makeFakeAccount());
+    await sut.auth(mockAccountModel());
     expect(loadSpy).toHaveBeenCalledWith('any_email@email.com');
   });
 
   test('Should throw if LoadAccountByEmailRepository throws', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
-    const promise = sut.auth(makeFakeAccount());
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockImplementationOnce(throwError);
+    const promise = sut.auth(mockAccountModel());
     await expect(promise).rejects.toThrow();
   });
 
   test('Should return null if LoadAccountByEmailRepository return null', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(null);
-    const accessToken = await sut.auth(makeFakeAccount());
+    const accessToken = await sut.auth(mockAccountModel());
     expect(accessToken).toBeNull();
   });
 
@@ -110,35 +67,35 @@ describe('DbAuthentication UseCase', () => {
 
   test('Should throw if HashCompare throws', async () => {
     const { sut, hashCompareStub } = makeSut();
-    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
-    const promise = sut.auth(makeFakeAccount());
+    jest.spyOn(hashCompareStub, 'compare').mockImplementationOnce(throwError);
+    const promise = sut.auth(mockAccountModel());
     await expect(promise).rejects.toThrow();
   });
 
   test('Should return null if HashCompare return false', async () => {
     const { sut, hashCompareStub } = makeSut();
     jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(new Promise((resolve) => resolve(false)));
-    const comparedPassword = await sut.auth(makeFakeAccount());
+    const comparedPassword = await sut.auth(mockAccountModel());
     expect(comparedPassword).toBeNull();
   });
 
   test('Should call TokenGenerator with correct id', async () => {
     const { sut, tokenGeneratorStub } = makeSut();
     const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate');
-    await sut.auth(makeFakeAccount());
+    await sut.auth(mockAccountModel());
     expect(generateSpy).toHaveBeenCalledWith('1');
   });
 
   test('Should throw if TokenGenerator throws', async () => {
     const { sut, tokenGeneratorStub } = makeSut();
-    jest.spyOn(tokenGeneratorStub, 'generate').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
-    const promise = sut.auth(makeFakeAccount());
+    jest.spyOn(tokenGeneratorStub, 'generate').mockImplementationOnce(throwError);
+    const promise = sut.auth(mockAccountModel());
     await expect(promise).rejects.toThrow();
   });
 
   test('Should return access token if TokenGenerator success', async () => {
     const { sut } = makeSut();
-    const accessToken = await sut.auth(makeFakeAccount());
+    const accessToken = await sut.auth(mockAccountModel());
     expect(accessToken).toBe('any_token');
   });
 

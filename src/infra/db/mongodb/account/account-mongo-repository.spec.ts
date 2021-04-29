@@ -1,6 +1,7 @@
 import { MongoHelper } from '../helpers/mongo-helper';
 import { AccountMongoRepository } from './account-mongo-repository';
 import { Collection } from 'mongodb';
+import { mockAddAccountParams } from '../../../../domain/test';
 
 let accountCollection: Collection;
 
@@ -25,33 +26,25 @@ describe('Account Mongo Repository', () => {
   describe('add()', () => {
     test('Should return an account on add success', async () => {
       const sut = makeSut();
-      const account = await sut.add({
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-      });
+      const account = await sut.add(mockAddAccountParams());
       expect(account).toBeTruthy();
       expect(account.id).toBeTruthy();
-      expect(account.name).toBe('any_name');
-      expect(account.email).toBe('any_email');
-      expect(account.password).toBe('any_password');
+      expect(account.name).toBe('name_valid');
+      expect(account.email).toBe('email_valid');
+      expect(account.password).toBe('password_valid');
     });
   });
 
   describe('loadByEmail()', () => {
     test('Should return an account on loadByEmail success', async () => {
       const sut = makeSut();
-      await sut.add({
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-      });
-      const account = await sut.loadByEmail('any_email');
+      await sut.add(mockAddAccountParams());
+      const account = await sut.loadByEmail('email_valid');
       expect(account).toBeTruthy();
       expect(account.id).toBeTruthy();
-      expect(account.name).toBe('any_name');
-      expect(account.email).toBe('any_email');
-      expect(account.password).toBe('any_password');
+      expect(account.name).toBe('name_valid');
+      expect(account.email).toBe('email_valid');
+      expect(account.password).toBe('password_valid');
     });
 
     test('Should return null if account not exists', async () => {
@@ -64,11 +57,7 @@ describe('Account Mongo Repository', () => {
   describe('updateAccessToken()', () => {
     test('Should update the account accessToken on updateAccessToken success', async () => {
       const sut = makeSut();
-      const res = await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password',
-      });
+      const res = await accountCollection.insertOne(mockAddAccountParams());
       expect(res.ops[0].accessToken).toBeFalsy();
       await sut.updateAccessToken(res.ops[0]._id, 'any_token');
       const account = await accountCollection.findOne({ _id: res.ops[0]._id });

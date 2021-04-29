@@ -2,6 +2,7 @@ import { LogControllerDecorator } from './log-controller-decorator';
 import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols';
 import { serverError, ok } from '../../presentation/helpers/http/http-helpers';
 import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository';
+import { mockLogErrorRepository } from '../../data/test';
 
 interface SutTypes {
   sut: LogControllerDecorator;
@@ -32,19 +33,9 @@ const makeFakeRequest = (): HttpRequest => ({
   },
 });
 
-const makeLogErrorRepository = (): ILogErrorRepository => {
-  class LogErrorRepositoryStub implements ILogErrorRepository {
-    async logError(stack: string): Promise<void> {
-      return await new Promise((resolve) => resolve());
-    }
-  }
-
-  return new LogErrorRepositoryStub();
-};
-
 const makeSut = (): SutTypes => {
   const controllerStub = makeController();
-  const logErrorRepositoryStub = makeLogErrorRepository();
+  const logErrorRepositoryStub = mockLogErrorRepository();
   const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub);
 
   return {
