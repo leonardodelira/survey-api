@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "sucrase-node src/main/server.ts",
+    "start": "node dist/main/server.js",
+    "build": "rimraf dist && tsc",
+    "dev": "sucrase-node src/main/server.ts",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --noLazy ./dist/main/server.js",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
@@ -43,6 +45,7 @@
     "lint-staged": "^10.1.7",
     "mockdate": "^3.0.5",
     "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "sucrase": "^3.13.0",
     "supertest": "^4.0.2",
     "ts-jest": "^25.4.0",
@@ -51,7 +54,6 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "express": "^4.17.1",
-    "fast-glob": "^3.2.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.7",
     "validator": "^13.0.0"
