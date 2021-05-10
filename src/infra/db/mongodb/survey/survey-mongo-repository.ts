@@ -1,8 +1,8 @@
-import { IAddSurveyRepository } from '../../../../data/protocols/db/survey/add-survey-repository';
-import { ILoadSurveyByIdRepository } from '../../../../data/protocols/db/survey/load-survey-by-id-repository';
-import { ILoadSurveyRepository } from '../../../../data/protocols/db/survey/load-survey-repository';
-import { ISurveyModel } from '../../../../domain/models/survey';
-import { IAddSurveyModel } from '../../../../domain/usecases/survey/add-survey';
+import { IAddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository';
+import { ILoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
+import { ILoadSurveyRepository } from '@/data/protocols/db/survey/load-survey-repository';
+import { ISurveyModel } from '@/domain/models/survey';
+import { IAddSurveyModel } from '@/domain/usecases/survey/add-survey';
 import { MongoHelper } from '../helpers/mongo-helper';
 import { ObjectId } from 'mongodb'
 

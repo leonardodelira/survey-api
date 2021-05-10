@@ -1,9 +1,9 @@
-import { IAccountModel } from '../../domain/models/account';
-import { mockAccountModel, throwError } from '../../domain/test';
-import { ILoadAccountByToken } from '../../domain/usecases/account/load-account-by-token';
-import { AccessDeniedError } from '../errors';
-import { forbidden, ok, serverError } from '../helpers/http/http-helpers';
-import { HttpRequest } from '../protocols';
+import { IAccountModel } from '@/domain/models/account';
+import { mockAccountModel, throwError } from '@/domain/test';
+import { ILoadAccountByToken } from '@/domain/usecases/account/load-account-by-token';
+import { AccessDeniedError } from '@/presentation/errors';
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helpers';
+import { HttpRequest } from '@/presentation/protocols';
 import { AuthMiddleware } from './auth-middleware';
 
 const makeFakeRequest = (): HttpRequest => ({

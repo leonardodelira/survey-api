@@ -1,7 +1,7 @@
-import { mockAccountModel, throwError } from '../../../../domain/test';
-import { IDecrypter } from '../../../protocols/criptography/decrypter'
-import { ILoadAccountByTokenRepository } from '../../../protocols/db/account/load-account-by-token-repository';
-import { mockDecrypter, mockLoadAccountByTokenRepository } from '../../../test';
+import { mockAccountModel, throwError } from '@/domain/test';
+import { IDecrypter } from '@/data/protocols/criptography/decrypter'
+import { ILoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository';
+import { mockDecrypter, mockLoadAccountByTokenRepository } from '@/data/test';
 import { DbLoadAccountByToken } from './db-load-account-by-token'
 
 interface SutTypes {

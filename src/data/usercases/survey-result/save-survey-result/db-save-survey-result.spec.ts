@@ -1,7 +1,7 @@
-import { ISaveSurveyResultRepository } from '../../../protocols/db/survey-result/save-survey-result-repository';
+import { ISaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository';
 import { DbSaveSurveyResult } from './db-save-survey-result';
-import { mockFakeSurveyResult, mockFakeSurveyResultData, throwError } from '../../../../domain/test';
-import { mockSaveSurveyResultRepository } from '../../../test';
+import { mockFakeSurveyResult, mockFakeSurveyResultData, throwError } from '@/domain/test';
+import { mockSaveSurveyResultRepository } from '@/data/test';
 import MockDate from 'mockdate'
 
 interface SutTypes {

@@ -1,5 +1,5 @@
 import { IAddAccount, IAddAccountParams, IAccountModel, IAddAccountRepository, ILoadAccountByEmailRepository } from './db-add-account-protocols';
-import { IHasher } from '../../../protocols/criptography/hasher';
+import { IHasher } from '@/data/protocols/criptography/hasher';
 
 export class DbAddAccount implements IAddAccount {
   constructor(private readonly encrypter: IHasher, private readonly accountRepository: IAddAccountRepository, private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository,) { }

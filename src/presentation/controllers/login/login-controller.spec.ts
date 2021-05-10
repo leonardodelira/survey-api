@@ -1,10 +1,10 @@
 import { LoginController } from './login-controller';
-import { HttpRequest } from '../../protocols';
-import { badRequest, serverError, unathorized, ok } from '../../helpers/http/http-helpers';
-import { MissingParamError } from '../../errors';
-import { IAuthentication } from '../../../domain/usecases/account/authentication';
-import { IValidation } from '../../protocols/validation';
-import { mockAuthenticationStub, mockValidation } from '../../test';
+import { HttpRequest } from '@/presentation/protocols';
+import { badRequest, serverError, unathorized, ok } from '@/presentation/helpers/http/http-helpers';
+import { MissingParamError } from '@/presentation/errors';
+import { IAuthentication } from '@/domain/usecases/account/authentication';
+import { IValidation } from '@/presentation/protocols/validation';
+import { mockAuthenticationStub, mockValidation } from '@/presentation/test';
 
 interface SutTypes {
   sut: LoginController;

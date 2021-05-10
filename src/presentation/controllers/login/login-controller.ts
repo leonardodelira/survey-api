@@ -1,7 +1,7 @@
-import { Controller, HttpRequest, HttpResponse } from '../../protocols';
-import { serverError, unathorized, ok, badRequest } from '../../helpers/http/http-helpers';
-import { IAuthentication } from '../../../domain/usecases/account/authentication';
-import { IValidation } from '../../protocols/validation';
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
+import { serverError, unathorized, ok, badRequest } from '@/presentation/helpers/http/http-helpers';
+import { IAuthentication } from '@/presentation/../domain/usecases/account/authentication';
+import { IValidation } from '@/presentation/protocols/validation';
 
 export class LoginController implements Controller {
   constructor(private readonly authentication: IAuthentication, private readonly validation: IValidation) { }

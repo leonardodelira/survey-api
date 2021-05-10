@@ -1,9 +1,9 @@
 import { SignUpController } from './signup-controller';
-import { MissingParamError, ServerError } from '../../errors';
-import { IAddAccount } from '../../../domain/usecases/account/add-account';
-import { ok, serverError, badRequest } from '../../helpers/http/http-helpers';
-import { IValidation } from '../../protocols/validation';
-import { mockAuthenticationStub, mockValidation, mockAddAccount } from '../../test';
+import { MissingParamError, ServerError } from '@/presentation/errors';
+import { IAddAccount } from '@/presentation/../domain/usecases/account/add-account';
+import { ok, serverError, badRequest } from '@/presentation/helpers/http/http-helpers';
+import { IValidation } from '@/presentation/protocols/validation';
+import { mockAuthenticationStub, mockValidation, mockAddAccount } from '@/presentation/test';
 
 interface SutTypes {
   sut: SignUpController;

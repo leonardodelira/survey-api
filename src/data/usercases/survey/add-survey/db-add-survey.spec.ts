@@ -1,8 +1,8 @@
-import { IAddSurveyRepository } from '../../../protocols/db/survey/add-survey-repository';
+import { IAddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository';
 import { DbAddSurvey } from './db-add-survey';
-import { IAddSurveyModel } from '../../../../domain/usecases/survey/add-survey';
-import { throwError } from '../../../../domain/test';
-import { mockAddSurveyRepository } from '../../../test';
+import { IAddSurveyModel } from '@/domain/usecases/survey/add-survey';
+import { throwError } from '@/domain/test';
+import { mockAddSurveyRepository } from '@/data/test';
 import MockDate from 'mockdate'
 
 const makeFakeSurveyData = (): IAddSurveyModel => ({

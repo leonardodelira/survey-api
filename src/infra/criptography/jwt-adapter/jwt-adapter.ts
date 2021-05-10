@@ -1,5 +1,5 @@
-import { ITokenGenerator } from '../../../data/protocols/criptography/token-generator';
-import { IDecrypter } from '../../../data/protocols/criptography/decrypter';
+import { ITokenGenerator } from '@/data/protocols/criptography/token-generator';
+import { IDecrypter } from '@/data/protocols/criptography/decrypter';
 
 import jwt from 'jsonwebtoken';
 

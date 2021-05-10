@@ -1,5 +1,5 @@
-import { IAccountModel } from '../models/account';
-import { IAddAccountParams } from '../usecases/account/add-account';
+import { IAccountModel } from '@/domain/models/account';
+import { IAddAccountParams } from '@/domain/usecases/account/add-account';
 
 export const mockAccountModel = (): IAccountModel => ({
   id: '1',
