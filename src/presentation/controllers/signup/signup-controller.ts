@@ -1,8 +1,8 @@
-import { HttpResponse, HttpRequest, Controller } from '../../protocols';
-import { badRequest, serverError, ok } from '../../helpers/http/http-helpers';
-import { IAddAccount } from '../../../domain/usecases/account/add-account';
-import { IValidation } from '../../protocols/validation';
-import { IAuthentication } from '../../../domain/usecases/account/authentication';
+import { HttpResponse, HttpRequest, Controller } from '@/presentation/protocols';
+import { badRequest, serverError, ok } from '@/presentation/helpers/http/http-helpers';
+import { IAddAccount } from '@/domain/usecases/account/add-account';
+import { IValidation } from '@/presentation/protocols/validation';
+import { IAuthentication } from '@/domain/usecases/account/authentication';
 
 export class SignUpController implements Controller {
   constructor(private readonly addAccount: IAddAccount, private readonly validation: IValidation, private readonly authentication: IAuthentication) { }

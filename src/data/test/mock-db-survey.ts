@@ -1,6 +1,6 @@
-import { ISurveyModel } from '../../domain/models/survey';
-import { mockFakeSurvey, mockFakeSurveys } from '../../domain/test/mock-survey';
-import { IAddSurveyModel } from '../../domain/usecases/survey/add-survey';
+import { ISurveyModel } from '@/domain/models/survey';
+import { mockFakeSurvey, mockFakeSurveys } from '@/domain/test/mock-survey';
+import { IAddSurveyModel } from '@/domain/usecases/survey/add-survey';
 import { IAddSurveyRepository } from '../protocols/db/survey/add-survey-repository';
 import { ILoadSurveyByIdRepository } from '../protocols/db/survey/load-survey-by-id-repository';
 import { ILoadSurveyRepository } from '../protocols/db/survey/load-survey-repository';

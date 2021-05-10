@@ -1,8 +1,8 @@
-import { noContent, ok, serverError } from '../../../helpers/http/http-helpers';
-import { ILoadSurveys } from '../../../../domain/usecases/survey/load-surveys';
-import { throwError } from '../../../../domain/test';
-import { mockFakeSurveys } from '../../../../domain/test/mock-survey';
-import { mockLoadSurveysStub } from '../../../test';
+import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helpers';
+import { ILoadSurveys } from '@/domain/usecases/survey/load-surveys';
+import { throwError } from '@/domain/test';
+import { mockFakeSurveys } from '@/domain/test/mock-survey';
+import { mockLoadSurveysStub } from '@/presentation/test';
 import LoadSurveysController from './load-surveys-controller';
 import MockDate from 'mockdate';
 

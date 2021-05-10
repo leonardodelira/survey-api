@@ -1,8 +1,8 @@
 import { DbAddAccount } from './db-add-account';
 import { IAddAccountRepository, IAccountModel, ILoadAccountByEmailRepository } from './db-add-account-protocols';
-import { IHasher } from '../../../protocols/criptography/hasher';
-import { mockAccountModel, mockAddAccountParams, throwError } from '../../../../domain/test';
-import { mockAddAccountRepository, mockEncrypter } from '../../../test';
+import { IHasher } from '@/data/protocols/criptography/hasher';
+import { mockAccountModel, mockAddAccountParams, throwError } from '@/domain/test';
+import { mockAddAccountRepository, mockEncrypter } from '@/data/test';
 
 export const mockLoadAccountEmailRepositoryStub = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {

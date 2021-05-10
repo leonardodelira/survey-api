@@ -1,5 +1,5 @@
-import { ISurveyResultModel } from '../models/survey-result';
-import { ISaveSurveyResultModel } from '../usecases/survey-result/save-survey-result';
+import { ISurveyResultModel } from '@/domain/models/survey-result';
+import { ISaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result';
 
 export const mockFakeSurveyResultData = (): ISaveSurveyResultModel => ({
   accountId: 'any_account_id',

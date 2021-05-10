@@ -1,9 +1,9 @@
-import { ILoadSurveyByIdRepository } from '../../../protocols/db/survey/load-survey-by-id-repository';
+import { ILoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
 import DbLoadSurveyById from './db-load-survey-by-id';
 import MockDate from 'mockdate'
-import { throwError } from '../../../../domain/test';
-import { mockLoadSurveyByIdRepository } from '../../../test';
-import { mockFakeSurvey } from '../../../../domain/test/mock-survey';
+import { throwError } from '@/domain/test';
+import { mockLoadSurveyByIdRepository } from '@/data/test';
+import { mockFakeSurvey } from '@/domain/test/mock-survey';
 
 interface SutTypes {
   sut: DbLoadSurveyById,

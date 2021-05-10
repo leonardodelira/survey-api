@@ -1,6 +1,6 @@
-import { HttpRequest } from '../../presentation/protocols';
+import { HttpRequest } from '@/presentation/protocols';
 import { NextFunction, Request, Response } from 'express';
-import { AuthMiddleware } from '../../presentation/middlewares/auth-middleware';
+import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware';
 
 export const adaptMiddleware = (middleware: AuthMiddleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {

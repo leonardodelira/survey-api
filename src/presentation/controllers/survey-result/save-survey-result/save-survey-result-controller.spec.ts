@@ -1,12 +1,12 @@
-import { ILoadSurveyById } from '../../../../domain/usecases/survey/load-survey-by-id'
-import { HttpRequest } from '../../../protocols'
+import { ILoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
+import { HttpRequest } from '@/presentation/protocols'
 import { SaveSurveyResultController } from './save-survey-result-controller'
-import { forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
-import { InvalidParamError } from '../../../errors'
-import { ISaveSurveyResult } from '../../../../domain/usecases/survey-result/save-survey-result'
-import { mockFakeSurveyResult, throwError } from '../../../../domain/test'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helpers'
+import { InvalidParamError } from '@/presentation/errors'
+import { ISaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
+import { mockFakeSurveyResult, throwError } from '@/domain/test'
 import MockDate from 'mockdate'
-import { mockLoadSurveyById, mockSaveSurveyResult } from '../../../test'
+import { mockLoadSurveyById, mockSaveSurveyResult } from '@/presentation/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   params: {

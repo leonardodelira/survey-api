@@ -1,6 +1,6 @@
-import { IAccountModel } from '../../domain/models/account';
-import { mockAccountModel } from '../../domain/test';
-import { IAddAccountParams } from '../../domain/usecases/account/add-account';
+import { IAccountModel } from '@/domain/models/account';
+import { mockAccountModel } from '@/domain/test';
+import { IAddAccountParams } from '@/domain/usecases/account/add-account';
 import { IAddAccountRepository } from '../protocols/db/account/add-account-repository';
 import { ILoadAccountByEmailRepository } from '../protocols/db/account/load-account-by-email-repository';
 import { ILoadAccountByTokenRepository } from '../protocols/db/account/load-account-by-token-repository';

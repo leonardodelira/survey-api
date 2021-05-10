@@ -1,9 +1,9 @@
-import { IAddSurvey } from '../../../../domain/usecases/survey/add-survey';
-import { badRequest, noContent, serverError } from '../../../helpers/http/http-helpers';
-import { HttpRequest, IValidation } from '../../../protocols'
+import { IAddSurvey } from '@/domain/usecases/survey/add-survey';
+import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helpers';
+import { HttpRequest, IValidation } from '@/presentation/protocols'
 import { AddSurveyController } from './add-survey-controller';
-import { throwError } from '../../../../domain/test';
-import { mockValidation, mockAddSurvey } from '../../../test';
+import { throwError } from '@/domain/test';
+import { mockValidation, mockAddSurvey } from '@/presentation/test';
 import MockDate from 'mockdate'
 
 const makeFakeRequest = (): HttpRequest => ({

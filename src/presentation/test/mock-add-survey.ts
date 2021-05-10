@@ -1,4 +1,4 @@
-import { IAddSurvey, IAddSurveyModel } from '../../domain/usecases/survey/add-survey';
+import { IAddSurvey, IAddSurveyModel } from '@/domain/usecases/survey/add-survey';
 
 export const mockAddSurvey = (): IAddSurvey => {
   class AddSurveyStub implements IAddSurvey {
