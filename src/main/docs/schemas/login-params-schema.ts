@@ -1,4 +1,4 @@
-export const loginSchema = {
+export const loginParamsSchema = {
   type: 'object',
   properties: {
     email: {
@@ -6,7 +6,7 @@ export const loginSchema = {
     },
     password: {
       type: 'string'
-    },
+    }
   },
   required: ['email', 'password']
 }
