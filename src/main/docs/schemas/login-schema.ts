@@ -1,4 +1,4 @@
-export const LoginSchema = {
+export const loginSchema = {
   type: 'object',
   properties: {
     email: {
