@@ -1,7 +1,13 @@
 export interface ISurveyResultModel {
-  id: string;
   surveyId: string;
-  accountId: string;
-  answer: string;
+  question: string;
+  answers: iSurveyResultAnswerModel[];
   date: Date;
+}
+
+interface iSurveyResultAnswerModel {
+  image?: string;
+  answer: string;
+  count: number;
+  percent: number;
 }
