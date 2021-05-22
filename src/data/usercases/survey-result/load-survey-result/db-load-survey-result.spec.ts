@@ -1,6 +1,5 @@
 import { ILoadSurveyResultRepository } from '@/data/protocols/db/survey-result/load-survey-result-repository';
-import { ISurveyResultModel } from '@/domain/models/survey-result';
-import { mockFakeSurveyResult } from '@/domain/test';
+import { mockLoadSurveyResultRepositoryStub } from '@/data/test';
 import { DbLoadSurveyResult } from './db-load-survey-result';
 
 describe('DbLoadSurveyResult UseCase', () => {
@@ -8,15 +7,6 @@ describe('DbLoadSurveyResult UseCase', () => {
     sut: DbLoadSurveyResult;
     loadSurveyResultRepositoryStub: ILoadSurveyResultRepository;
   }
-
-  const mockLoadSurveyResultRepositoryStub = () => {
-    class LoadSurveyResultRepositoryStub implements ILoadSurveyResultRepository {
-      async loadBySurveyId(surveyId: string): Promise<ISurveyResultModel> {
-        return Promise.resolve(mockFakeSurveyResult());
-      }
-    }
-    return new LoadSurveyResultRepositoryStub();
-  };
 
   const makeSut = (): SutTypes => {
     const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepositoryStub();
