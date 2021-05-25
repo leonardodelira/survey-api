@@ -6,7 +6,7 @@ import { ObjectId } from 'bson';
 import { MongoHelper, QueryBuilder } from '../helpers';
 
 export class SurveyResultMongoRepository implements ISaveSurveyResultRepository, ILoadSurveyResultRepository {
-  async save(survey: ISaveSurveyResultParams): Promise<ISurveyResultModel> {
+  async save(survey: ISaveSurveyResultParams): Promise<void> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults');
     await surveyResultCollection.findOneAndUpdate(
       {
@@ -23,8 +23,6 @@ export class SurveyResultMongoRepository implements ISaveSurveyResultRepository,
         upsert: true,
       }
     );
-    const surveyResult = await this.loadBySurveyId(survey.surveyId);
-    return surveyResult;
   }
 
   async loadBySurveyId(surveyId: string): Promise<ISurveyResultModel> {

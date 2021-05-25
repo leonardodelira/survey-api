@@ -2,8 +2,17 @@ import { ILoadSurveyResultRepository } from '@/data/protocols/db/survey-result/l
 import { mockLoadSurveyResultRepositoryStub } from '@/data/test';
 import { mockFakeSurveyResult, throwError } from '@/domain/test';
 import { DbLoadSurveyResult } from './db-load-survey-result';
+import mockDate from 'mockdate';
 
 describe('DbLoadSurveyResult UseCase', () => {
+  beforeAll(() => {
+    mockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    mockDate.reset();
+  });
+
   interface SutTypes {
     sut: DbLoadSurveyResult;
     loadSurveyResultRepositoryStub: ILoadSurveyResultRepository;
