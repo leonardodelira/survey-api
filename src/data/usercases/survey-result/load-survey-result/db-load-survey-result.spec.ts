@@ -1,8 +1,9 @@
 import { ILoadSurveyResultRepository } from '@/data/protocols/db/survey-result/load-survey-result-repository';
-import { mockLoadSurveyResultRepositoryStub } from '@/data/test';
+import { mockLoadSurveyByIdRepository, mockLoadSurveyRepository, mockLoadSurveyResultRepositoryStub } from '@/data/test';
 import { mockFakeSurveyResult, throwError } from '@/domain/test';
 import { DbLoadSurveyResult } from './db-load-survey-result';
 import mockDate from 'mockdate';
+import { ILoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
 
 describe('DbLoadSurveyResult UseCase', () => {
   beforeAll(() => {
@@ -16,15 +17,18 @@ describe('DbLoadSurveyResult UseCase', () => {
   interface SutTypes {
     sut: DbLoadSurveyResult;
     loadSurveyResultRepositoryStub: ILoadSurveyResultRepository;
+    loadSurveyByIdRepositoryStub: ILoadSurveyByIdRepository;
   }
 
   const makeSut = (): SutTypes => {
     const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepositoryStub();
-    const sut = new DbLoadSurveyResult(loadSurveyResultRepositoryStub);
+    const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepository();
+    const sut = new DbLoadSurveyResult(loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub);
 
     return {
       sut,
       loadSurveyResultRepositoryStub,
+      loadSurveyByIdRepositoryStub,
     };
   };
 
@@ -41,6 +45,14 @@ describe('DbLoadSurveyResult UseCase', () => {
 
     const promisse = sut.load('any_survey_id');
     await expect(promisse).rejects.toThrow();
+  });
+
+  test('Should call LoadSurveyByIdRepository if LoadSurveyResultRepository returns null', async () => {
+    const { sut, loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub } = makeSut();
+    const loadByIdSpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById');
+    jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId').mockReturnValueOnce(Promise.resolve(null));
+    await sut.load('any_survey_id');
+    expect(loadByIdSpy).toHaveBeenCalledWith('any_survey_id');
   });
 
   test('Should return SurveyResultModel on success', async () => {
