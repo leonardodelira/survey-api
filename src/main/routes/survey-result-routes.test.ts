@@ -12,23 +12,26 @@ const makeAccesssToken = async (): Promise<string> => {
   const res = await accountCollection.insertOne({
     name: 'Leonardo',
     email: 'leonardo.lira@hotmail.com',
-    password: '123'
+    password: '123',
   });
 
   const id = res.ops[0]._id;
-  const accessToken = sign({ id }, env.jwt)
-  await accountCollection.updateOne({
-    _id: id,
-  }, {
-    $set: {
-      accessToken
+  const accessToken = sign({ id }, env.jwt);
+  await accountCollection.updateOne(
+    {
+      _id: id,
+    },
+    {
+      $set: {
+        accessToken,
+      },
     }
-  })
+  );
 
-  return accessToken
-}
+  return accessToken;
+};
 
-describe('Login Routes', () => {
+describe('Survey Result Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL);
   });
@@ -50,7 +53,7 @@ describe('Login Routes', () => {
       await request(app)
         .put('/api/surveys/any_id/results')
         .send({
-          answer: 'any_answer'
+          answer: 'any_answer',
         })
         .expect(403);
     });
@@ -59,20 +62,28 @@ describe('Login Routes', () => {
       const accessToken = await makeAccesssToken();
       const res = await surveyCollection.insertOne({
         question: 'Question 1',
-        answers: [{
-          answer: 'any_answer',
-          image: 'http://image-name.com'
-        }],
-        date: new Date()
-      })
+        answers: [
+          {
+            answer: 'any_answer',
+            image: 'http://image-name.com',
+          },
+        ],
+        date: new Date(),
+      });
       const id = res.ops[0]._id;
       await request(app)
         .put(`/api/surveys/${id}/results`)
         .set('x-access-token', accessToken)
         .send({
-          answer: 'any_answer'
+          answer: 'any_answer',
         })
         .expect(200);
+    });
+  });
+
+  describe('GET /surveys/:surveyId/results', () => {
+    test('Should return 403 on load survey result without accessToken', async () => {
+      await request(app).get('/api/surveys/any_id/results').expect(403);
     });
   });
 });
