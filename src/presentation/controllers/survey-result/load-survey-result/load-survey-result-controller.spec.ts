@@ -1,8 +1,9 @@
+import { ILoadSurveyResult } from '@/domain/usecases/survey-result/load-survey-result';
 import { ILoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id';
 import { InvalidParamError } from '@/presentation/errors';
 import { forbidden, serverError } from '@/presentation/helpers/http/http-helpers';
 import { HttpRequest } from '@/presentation/protocols';
-import { mockLoadSurveyById } from '@/presentation/test';
+import { mockLoadSurveyById, mockLoadSurveyResult } from '@/presentation/test';
 import { LoadSurveyResultController } from './load-survey-result-controller';
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -14,15 +15,18 @@ const makeFakeRequest = (): HttpRequest => ({
 interface SutTypes {
   sut: LoadSurveyResultController;
   loadSurveyByIdStub: ILoadSurveyById;
+  loadSurveyResultStub: ILoadSurveyResult;
 }
 
 const makeSut = (): SutTypes => {
   const loadSurveyByIdStub = mockLoadSurveyById();
-  const sut = new LoadSurveyResultController(loadSurveyByIdStub);
+  const loadSurveyResultStub = mockLoadSurveyResult();
+  const sut = new LoadSurveyResultController(loadSurveyByIdStub, loadSurveyResultStub);
 
   return {
     sut,
     loadSurveyByIdStub,
+    loadSurveyResultStub,
   };
 };
 
@@ -48,5 +52,12 @@ describe('LoadSurveyResult Controller', () => {
     });
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
+  });
+
+  test('Should call LoadSurveyResult with correct value', async () => {
+    const { sut, loadSurveyResultStub } = makeSut();
+    const loadSurveySpy = jest.spyOn(loadSurveyResultStub, 'load');
+    await sut.handle(makeFakeRequest());
+    expect(loadSurveySpy).toHaveBeenCalledWith('any_id');
   });
 });
