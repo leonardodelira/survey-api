@@ -6,7 +6,7 @@ import { IAuthentication } from '@/domain/usecases/account/authentication';
 import { InvalidParamError } from '@/presentation/errors';
 
 export class SignUpController implements Controller {
-  constructor(private readonly addAccount: IAddAccount, private readonly validation: IValidation, private readonly authentication: IAuthentication) { }
+  constructor(private readonly addAccount: IAddAccount, private readonly validation: IValidation, private readonly authentication: IAuthentication) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -18,7 +18,7 @@ export class SignUpController implements Controller {
       const { name, email, password } = httpRequest.body;
 
       const account = await this.addAccount.add({ name, email, password });
-      console.log(account);
+
       if (account) {
         return ok(account);
       }

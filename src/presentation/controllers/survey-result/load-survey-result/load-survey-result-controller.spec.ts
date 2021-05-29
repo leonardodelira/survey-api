@@ -6,6 +6,7 @@ import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-hel
 import { HttpRequest } from '@/presentation/protocols';
 import { mockLoadSurveyById, mockLoadSurveyResult } from '@/presentation/test';
 import { LoadSurveyResultController } from './load-survey-result-controller';
+import MockDate from 'mockdate';
 
 const makeFakeRequest = (): HttpRequest => ({
   params: {
@@ -32,6 +33,14 @@ const makeSut = (): SutTypes => {
 };
 
 describe('LoadSurveyResult Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
+
   test('Should call LoadSurveyById with correct value', async () => {
     const { sut, loadSurveyByIdStub } = makeSut();
     const loadSurveySpy = jest.spyOn(loadSurveyByIdStub, 'loadById');
