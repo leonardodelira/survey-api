@@ -4,7 +4,7 @@ import { IAuthentication } from '@/presentation/../domain/usecases/account/authe
 import { IValidation } from '@/presentation/protocols/validation';
 
 export class LoginController implements Controller {
-  constructor(private readonly authentication: IAuthentication, private readonly validation: IValidation) { }
+  constructor(private readonly authentication: IAuthentication, private readonly validation: IValidation) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -12,11 +12,11 @@ export class LoginController implements Controller {
       if (error) return badRequest(error);
 
       const { email, password } = httpRequest.body;
-      const token = await this.authentication.auth({ email, password });
+      const authenticated = await this.authentication.auth({ email, password });
 
-      if (!token) return unathorized();
+      if (!authenticated) return unathorized();
 
-      return ok({ acessToken: token });
+      return ok(authenticated);
     } catch (error) {
       return serverError(error);
     }
