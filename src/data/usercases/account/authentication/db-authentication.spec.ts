@@ -95,8 +95,11 @@ describe('DbAuthentication UseCase', () => {
 
   test('Should return access token if TokenGenerator success', async () => {
     const { sut } = makeSut();
-    const accessToken = await sut.auth(mockAccountModel());
-    expect(accessToken).toBe('any_token');
+    const response = await sut.auth(mockAccountModel());
+    expect(response).toEqual({
+      accessToken: 'any_token',
+      name: 'any_name',
+    });
   });
 
   test('Should call UpdateAcesssTokenRepository with correct token', async () => {

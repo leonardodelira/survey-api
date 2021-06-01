@@ -1,6 +1,6 @@
 import { LoginController } from './login-controller';
 import { HttpRequest } from '@/presentation/protocols';
-import { badRequest, serverError, unathorized, ok } from '@/presentation/helpers/http/http-helpers';
+import { badRequest, serverError, unathorized } from '@/presentation/helpers/http/http-helpers';
 import { MissingParamError } from '@/presentation/errors';
 import { IAuthentication } from '@/domain/usecases/account/authentication';
 import { IValidation } from '@/presentation/protocols/validation';
@@ -63,7 +63,8 @@ describe('Login Controller', () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(mockRequest());
 
-    expect(httpResponse).toEqual(ok({ acessToken: 'any_token' }));
+    expect(httpResponse.body.accessToken).toBe('any_token');
+    expect(httpResponse.body.name).toBe('any_name');
   });
 
   test('Should call Validation with correct value', async () => {
