@@ -3,6 +3,7 @@ export interface ISurveyModel {
   question: string;
   answers: ISurveyAnswerModel[];
   date: Date;
+  didAnswer?: boolean;
 }
 
 export interface ISurveyAnswerModel {
