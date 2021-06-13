@@ -60,6 +60,6 @@ describe('DbSaveSurveyResult UseCase', () => {
     const loadSpy = jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId');
     const surveyResultData = mockFakeSurveyResultData();
     await sut.save(surveyResultData);
-    expect(loadSpy).toHaveBeenCalledWith(surveyResultData.surveyId);
+    expect(loadSpy).toHaveBeenCalledWith(surveyResultData.surveyId, surveyResultData.accountId);
   });
 });
