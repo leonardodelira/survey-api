@@ -1,9 +1,8 @@
-import { IAccountModel } from '@/domain/models/account';
-import { IAddAccount, IAddAccountParams } from '@/domain/usecases/account/add-account';
+import { IAddAccount } from '@/domain/usecases/account/add-account';
 
 export const mockAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
-    async add(account: IAddAccountParams): Promise<IAccountModel> {
+    async add(account: IAddAccount.Params): Promise<IAddAccount.Result> {
       const newAccount = {
         id: '1',
         name: 'valid_name',

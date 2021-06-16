@@ -1,11 +1,15 @@
 import { IAccountModel } from '@/domain/models/account';
 
-export interface IAddAccountParams {
-  name: string;
-  email: string;
-  password: string;
+export interface IAddAccount {
+  add(account: IAddAccount.Params): Promise<IAddAccount.Result>;
 }
 
-export interface IAddAccount {
-  add(account: IAddAccountParams): Promise<IAccountModel>;
+export namespace IAddAccount {
+  export type Params = {
+    name: string;
+    email: string;
+    password: string;
+  };
+
+  export type Result = IAccountModel;
 }
