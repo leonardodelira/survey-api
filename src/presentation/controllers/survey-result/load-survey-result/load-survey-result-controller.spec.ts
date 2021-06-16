@@ -3,16 +3,13 @@ import { ILoadSurveyResult } from '@/domain/usecases/survey-result/load-survey-r
 import { ILoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id';
 import { InvalidParamError } from '@/presentation/errors';
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helpers';
-import { HttpRequest } from '@/presentation/protocols';
 import { mockLoadSurveyById, mockLoadSurveyResult } from '@/presentation/test';
 import { LoadSurveyResultController } from './load-survey-result-controller';
 import MockDate from 'mockdate';
 
-const makeFakeRequest = (): HttpRequest => ({
+const makeFakeRequest = (): LoadSurveyResultController.Request => ({
   accountId: 'any_account_id',
-  params: {
-    surveyId: 'any_id',
-  },
+  surveyId: 'any_id',
 });
 
 interface SutTypes {

@@ -3,11 +3,10 @@ import { ILoadSurveys } from '@/domain/usecases/survey/load-surveys';
 import { throwError } from '@/domain/test';
 import { mockFakeSurveys } from '@/domain/test/mock-survey';
 import { mockLoadSurveysStub } from '@/presentation/test';
-import LoadSurveysController from './load-surveys-controller';
 import MockDate from 'mockdate';
-import { HttpRequest } from '@/presentation/protocols';
+import { LoadSurveysController } from './load-surveys-controller';
 
-const mockRequest = (): HttpRequest => ({ accountId: 'any_id' });
+const mockRequest = (): LoadSurveysController.Request => ({ accountId: 'any_id' });
 
 interface SutTypes {
   loadSurveysStub: ILoadSurveys;
@@ -36,9 +35,9 @@ describe('LoadSurveys Controller', () => {
   test('Should call LoadSurveys with correct values', async () => {
     const { loadSurveysStub, sut } = makeSut();
     const loadSpy = jest.spyOn(loadSurveysStub, 'load');
-    const httpRequest = mockRequest();
+    const request = mockRequest();
     await sut.handle(mockRequest());
-    expect(loadSpy).toHaveBeenCalledWith(httpRequest.accountId);
+    expect(loadSpy).toHaveBeenCalledWith(request.accountId);
   });
 
   test('Should return 200 on success', async () => {

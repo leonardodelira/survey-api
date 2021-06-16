@@ -30,16 +30,14 @@ describe('SignUp Controller', () => {
 
     const addSpy = jest.spyOn(addAccountStub, 'add');
 
-    const httpRequest = {
-      body: {
-        name: 'test',
-        email: 'valid_email@test.com',
-        password: '123',
-        passwordConfirm: '123',
-      },
+    const request = {
+      name: 'test',
+      email: 'valid_email@test.com',
+      password: '123',
+      passwordConfirm: '123',
     };
 
-    await sut.handle(httpRequest);
+    await sut.handle(request);
 
     expect(addSpy).toHaveBeenCalledWith({
       name: 'test',
@@ -55,31 +53,27 @@ describe('SignUp Controller', () => {
       return await Promise.reject(new Error());
     });
 
-    const httpRequest = {
-      body: {
-        name: 'test',
-        email: 'invalid@test.com',
-        password: '123',
-        passwordConfirm: '123',
-      },
+    const request = {
+      name: 'test',
+      email: 'invalid@test.com',
+      password: '123',
+      passwordConfirm: '123',
     };
 
-    const httpResponse = await sut.handle(httpRequest);
+    const httpResponse = await sut.handle(request);
     expect(httpResponse).toEqual(serverError(new ServerError()));
   });
 
   test('Should return 200 when addAccount work', async () => {
     const { sut } = makeSut();
-    const httpRequest = {
-      body: {
-        name: 'valid_name',
-        email: 'valid_email@email.com',
-        password: '123',
-        passwordConfirm: '123',
-      },
+    const request = {
+      name: 'valid_name',
+      email: 'valid_email@email.com',
+      password: '123',
+      passwordConfirm: '123',
     };
 
-    const httpResponse = await sut.handle(httpRequest);
+    const httpResponse = await sut.handle(request);
 
     expect(httpResponse).toEqual(
       ok({
@@ -95,33 +89,29 @@ describe('SignUp Controller', () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, 'validate');
 
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@test.com',
-        password: '123',
-        passwordConfirm: '123',
-      },
+    const request = {
+      name: 'any_name',
+      email: 'any_email@test.com',
+      password: '123',
+      passwordConfirm: '123',
     };
 
-    await sut.handle(httpRequest);
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
+    await sut.handle(request);
+    expect(validateSpy).toHaveBeenCalledWith(request);
   });
 
   test('Should return badrequest when validate fails', async () => {
     const { sut, validationStub } = makeSut();
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'));
 
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@test.com',
-        password: '123',
-        passwordConfirm: '123',
-      },
+    const request = {
+      name: 'any_name',
+      email: 'any_email@test.com',
+      password: '123',
+      passwordConfirm: '123',
     };
 
-    const httpResponse = await sut.handle(httpRequest);
+    const httpResponse = await sut.handle(request);
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')));
   });
 });

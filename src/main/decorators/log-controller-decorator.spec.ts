@@ -1,5 +1,5 @@
 import { LogControllerDecorator } from './log-controller-decorator';
-import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
+import { Controller, HttpResponse } from '@/presentation/protocols';
 import { serverError, ok } from '@/presentation/helpers/http/http-helpers';
 import { ILogErrorRepository } from '@/data/protocols/db/log/log-error-repository';
 import { mockLogErrorRepository } from '@/data/test';
@@ -12,7 +12,7 @@ interface SutTypes {
 
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
-    async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+    async handle(request: any): Promise<HttpResponse> {
       const httpResponse: HttpResponse = {
         statusCode: 200,
         body: 'any_body',
@@ -24,7 +24,7 @@ const makeController = (): Controller => {
   return new ControllerStub();
 };
 
-const makeFakeRequest = (): HttpRequest => ({
+const makeFakeRequest = (): any => ({
   body: {
     email: 'any_email@mail.com',
     name: 'any_name',

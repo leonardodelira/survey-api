@@ -1,6 +1,6 @@
 import { IAddSurvey } from '@/domain/usecases/survey/add-survey';
 import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helpers';
-import { HttpResponse, HttpRequest, Controller, IValidation } from '@/presentation/protocols';
+import { HttpResponse, Controller, IValidation } from '@/presentation/protocols';
 
 export class AddSurveyController implements Controller {
   constructor(
@@ -8,15 +8,15 @@ export class AddSurveyController implements Controller {
     private readonly addSurvey: IAddSurvey
   ) { }
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: AddSurveyController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body);
+      const error = this.validation.validate(request);
 
       if (error) {
         return badRequest(error);
       }
 
-      const { question, answers } = httpRequest.body;
+      const { question, answers } = request;
       await this.addSurvey.add({
         question,
         answers,
@@ -27,5 +27,17 @@ export class AddSurveyController implements Controller {
     } catch (err) {
       return serverError(err)
     }
+  }
+}
+
+export namespace AddSurveyController {
+  type Answer = {
+    image?: string,
+    answer: string,
+  }
+
+  export type Request = {
+    question: string, 
+    answers: Answer[]
   }
 }
