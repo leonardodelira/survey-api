@@ -11,7 +11,7 @@ export class SurveyMongoRepository implements IAddSurveyRepository, ILoadSurveyR
     await surveyCollection.insertOne(survey);
   }
 
-  async loadAll(accountId: string): Promise<ISurveyModel[]> {
+  async loadAll(accountId: string): Promise<ILoadSurveyRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection('surveys');
 
     const query = new QueryBuilder()
@@ -49,7 +49,7 @@ export class SurveyMongoRepository implements IAddSurveyRepository, ILoadSurveyR
     return surveys && MongoHelper.mapCollection(surveys);
   }
 
-  async loadById(id: string): Promise<ISurveyModel> {
+  async loadById(id: string): Promise<ILoadSurveyByIdRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection('surveys');
     const survey: ISurveyModel = await surveyCollection.findOne({ _id: new ObjectId(id) });
     return survey && MongoHelper.map(survey);
