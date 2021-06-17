@@ -1,5 +1,5 @@
 import { ILoadSurveyResultRepository } from '@/data/protocols/db/survey-result/load-survey-result-repository';
-import { mockLoadSurveyByIdRepository, mockLoadSurveyRepository, mockLoadSurveyResultRepositoryStub } from '@/data/test';
+import { mockLoadSurveyByIdRepository, mockLoadSurveyResultRepositoryStub } from '@/data/test';
 import { mockFakeSurveyResult, throwError } from '@/domain/test';
 import { DbLoadSurveyResult } from './db-load-survey-result';
 import { ILoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository';
