@@ -1,4 +1,3 @@
-import { IAccountModel } from '@/domain/models/account';
 import { mockAccountModel, throwError } from '@/domain/test';
 import { ILoadAccountByToken } from '@/domain/usecases/account/load-account-by-token';
 import { AccessDeniedError } from '@/presentation/errors';
@@ -11,7 +10,7 @@ const makeFakeRequest = (): AuthMiddleware.Request => ({
 
 const makeLoadAccountByToken = (): ILoadAccountByToken => {
   class LoadAccountByTokenStub implements ILoadAccountByToken {
-    async load(accessToken: string, role?: string): Promise<IAccountModel> {
+    async load(accessToken: string, role?: string): Promise<ILoadAccountByToken.Result> {
       return await Promise.resolve(mockAccountModel());
     }
   }
