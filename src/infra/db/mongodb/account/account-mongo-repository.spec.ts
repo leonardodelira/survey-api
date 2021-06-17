@@ -54,6 +54,21 @@ describe('Account Mongo Repository', () => {
     });
   });
 
+  describe('checkByEmail()', () => {
+    test('Should return true on checkByEmail success', async () => {
+      const sut = makeSut();
+      await sut.add(mockAddAccountParams());
+      const account = await sut.checkByEmail('email_valid');
+      expect(account).toBeTruthy();
+    });
+
+    test('Should return false if account not exists', async () => {
+      const sut = makeSut();
+      const account = await sut.checkByEmail('any_email');
+      expect(account).toBeFalsy();
+    });
+  });
+
   describe('updateAccessToken()', () => {
     test('Should update the account accessToken on updateAccessToken success', async () => {
       const sut = makeSut();
@@ -73,7 +88,7 @@ describe('Account Mongo Repository', () => {
         name: 'any_name',
         email: 'any_email',
         password: 'any_password',
-        accessToken: 'any_token'
+        accessToken: 'any_token',
       });
       const account = await sut.loadByToken('any_token');
       expect(account).toBeTruthy();
@@ -90,7 +105,7 @@ describe('Account Mongo Repository', () => {
         email: 'any_email',
         password: 'any_password',
         accessToken: 'any_token',
-        role: 'admin'
+        role: 'admin',
       });
       const account = await sut.loadByToken('any_token', 'admin');
       expect(account).toBeTruthy();
@@ -119,7 +134,7 @@ describe('Account Mongo Repository', () => {
         email: 'any_email',
         password: 'any_password',
         accessToken: 'any_token',
-        role: 'admin'
+        role: 'admin',
       });
       const account = await sut.loadByToken('any_token');
       expect(account).toBeTruthy();

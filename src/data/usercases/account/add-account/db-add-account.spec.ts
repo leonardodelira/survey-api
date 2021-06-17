@@ -1,29 +1,30 @@
 import { DbAddAccount } from './db-add-account';
-import { IAddAccountRepository, IAccountModel, ILoadAccountByEmailRepository } from './db-add-account-protocols';
+import { IAddAccountRepository } from './db-add-account-protocols';
 import { IHasher } from '@/data/protocols/criptography/hasher';
 import { mockAccountModel, mockAddAccountParams, throwError } from '@/domain/test';
 import { mockAddAccountRepository, mockEncrypter } from '@/data/test';
+import { ICheckAccountByEmailRepository } from '@/data/protocols/db/account/check-account-by-email-repository';
 
-export const mockLoadAccountEmailRepositoryStub = (): ILoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<IAccountModel> {
+export const mockCheckAccountEmailRepositoryStub = (): ICheckAccountByEmailRepository => {
+  class CheckAccountByEmailRepositoryStub implements ICheckAccountByEmailRepository {
+    async checkByEmail(email: string): Promise<ICheckAccountByEmailRepository.Result> {
       return await Promise.resolve(null);
     }
   }
-  return new LoadAccountByEmailRepositoryStub();
+  return new CheckAccountByEmailRepositoryStub();
 };
 
 interface SutTypes {
   sut: DbAddAccount;
   encrypterStub: IHasher;
   addAccountRepositoryStub: IAddAccountRepository;
-  loadAccountEmailRepositoryStub: ILoadAccountByEmailRepository;
+  loadAccountEmailRepositoryStub: ICheckAccountByEmailRepository;
 }
 
 const makeSut = (): SutTypes => {
   const encrypterStub = mockEncrypter();
   const addAccountRepositoryStub = mockAddAccountRepository();
-  const loadAccountEmailRepositoryStub = mockLoadAccountEmailRepositoryStub();
+  const loadAccountEmailRepositoryStub = mockCheckAccountEmailRepositoryStub();
 
   const sut = new DbAddAccount(encrypterStub, addAccountRepositoryStub, loadAccountEmailRepositoryStub);
 
@@ -31,7 +32,7 @@ const makeSut = (): SutTypes => {
     sut,
     encrypterStub,
     addAccountRepositoryStub,
-    loadAccountEmailRepositoryStub
+    loadAccountEmailRepositoryStub,
   };
 };
 
@@ -87,14 +88,14 @@ describe('DbAddAccount Usercase', () => {
 
   test('Should return null if LoadAccountByEmailRepository not return null', async () => {
     const { sut, loadAccountEmailRepositoryStub } = makeSut();
-    jest.spyOn(loadAccountEmailRepositoryStub, 'loadByEmail').mockResolvedValueOnce(Promise.resolve(mockAccountModel()))
+    jest.spyOn(loadAccountEmailRepositoryStub, 'checkByEmail').mockResolvedValueOnce(Promise.resolve(true));
     const account = await sut.add(mockAddAccountParams());
     expect(account).toBeNull();
   });
 
   test('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountEmailRepositoryStub } = makeSut();
-    const loadSpy = jest.spyOn(loadAccountEmailRepositoryStub, 'loadByEmail');
+    const loadSpy = jest.spyOn(loadAccountEmailRepositoryStub, 'checkByEmail');
     await sut.add(mockAccountModel());
     expect(loadSpy).toHaveBeenCalledWith('any_email@email.com');
   });
