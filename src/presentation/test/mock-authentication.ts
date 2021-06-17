@@ -1,9 +1,8 @@
-import { iAuthenticationModel } from '@/domain/models/authentication';
-import { IAuthentication, IAuthenticationModel } from '@/domain/usecases/account/authentication';
+import { IAuthentication } from '@/domain/usecases/account/authentication';
 
 export const mockAuthenticationStub = (): IAuthentication => {
   class AuthenticationStub implements IAuthentication {
-    async auth(authentication: IAuthenticationModel): Promise<iAuthenticationModel> {
+    async auth(authentication: IAuthentication.Params): Promise<IAuthentication.Result> {
       return await Promise.resolve({
         accessToken: 'any_token',
         name: 'any_name',

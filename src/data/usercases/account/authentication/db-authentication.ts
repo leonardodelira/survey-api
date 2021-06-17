@@ -1,9 +1,8 @@
-import { IAuthentication, IAuthenticationModel } from '@/domain/usecases/account/authentication';
+import { IAuthentication } from '@/domain/usecases/account/authentication';
 import { ILoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository';
 import { IHashCompare } from '@/data/protocols/criptography/hash-compare';
 import { ITokenGenerator } from '@/data/protocols/criptography/token-generator';
 import { IUpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository';
-import { iAuthenticationModel } from '@/domain/models/authentication';
 
 export class DbAuthentication implements IAuthentication {
   constructor(
@@ -13,7 +12,7 @@ export class DbAuthentication implements IAuthentication {
     private readonly updateAccessToken: IUpdateAccessTokenRepository
   ) {}
 
-  async auth(authentication: IAuthenticationModel): Promise<iAuthenticationModel> {
+  async auth(authentication: IAuthentication.Params): Promise<IAuthentication.Result> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(authentication.email);
 
     if (account) {
