@@ -6,7 +6,10 @@ export interface IAddSurveyModel {
   date: Date;
 }
 
-
 export interface IAddSurvey {
-  add(data: IAddSurveyModel): Promise<void>;
+  add(data: IAddSurvey.Params): Promise<void>;
+}
+
+export namespace IAddSurvey {
+  export type Params = IAddSurveyModel;
 }
