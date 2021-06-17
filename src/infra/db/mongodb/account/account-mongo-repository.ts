@@ -3,7 +3,6 @@ import { MongoHelper } from '../helpers/mongo-helper';
 import { ILoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository';
 import { IUpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository';
 import { ILoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository';
-import { IAccountModel } from '@/domain/models/account';
 
 export class AccountMongoRepository implements IAddAccountRepository, ILoadAccountByEmailRepository, IUpdateAccessTokenRepository, ILoadAccountByTokenRepository {
   async add(accountData: IAddAccountRepository.Params): Promise<IAddAccountRepository.Result> {
@@ -12,7 +11,7 @@ export class AccountMongoRepository implements IAddAccountRepository, ILoadAccou
     return MongoHelper.map(result.ops[0]);
   }
 
-  async loadByEmail(email: string): Promise<IAccountModel> {
+  async loadByEmail(email: string): Promise<ILoadAccountByEmailRepository.Result> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const account = await accountCollection.findOne({ email });
 
