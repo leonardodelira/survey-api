@@ -1,11 +1,10 @@
 import { ILoadSurveyResultRepository } from '@/data/protocols/db/survey-result/load-survey-result-repository';
 import { ISaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository';
-import { ISaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result';
 import { ObjectId } from 'bson';
 import { MongoHelper, QueryBuilder } from '../helpers';
 
 export class SurveyResultMongoRepository implements ISaveSurveyResultRepository, ILoadSurveyResultRepository {
-  async save(survey: ISaveSurveyResultParams): Promise<void> {
+  async save(survey: ISaveSurveyResultRepository.Params): Promise<void> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults');
     await surveyResultCollection.findOneAndUpdate(
       {
